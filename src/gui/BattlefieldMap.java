@@ -279,7 +279,7 @@ public class BattlefieldMap extends JPanel {
         boolean allShipsDead = true;
         for (Ship ship : listOfShips) {
             if (ship.isAlive()) { // skip dead ships
-                if (checkIfShipIsDestroyed(ship)) {
+                if (ship.checkIfShipIsDestroyed(this)) {
                     ((MainFrame) mainFrame).updateNotificationLabel(ship.getName() + " destroyed!");
                     accompanyingStat.updateShipLabels(ship.getName());
                 } else {
@@ -288,20 +288,6 @@ public class BattlefieldMap extends JPanel {
             }
         }
         return allShipsDead;
-    }
-
-    private boolean checkIfShipIsDestroyed(Ship ship) { // TODO: move to Ship
-        ArrayList<Integer> shipCoordinates = (ArrayList<Integer>) ship.getCoordinates();
-        for (int i = 0; i < shipCoordinates.size(); i += 2) {
-            int row = shipCoordinates.get(i);
-            int column = shipCoordinates.get(i + 1);
-
-            if (!gridFields[row][column].isHit()) {
-                return false; // as soon as there's an unhit field
-            }
-        }
-        ship.setAlive(false); // RIP
-        return true;
     }
 
     public void removeButtonActions() {

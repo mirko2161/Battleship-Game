@@ -1,6 +1,8 @@
 package model;
 
+import gui.BattlefieldMap;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ship implements Serializable {
@@ -15,6 +17,19 @@ public class Ship implements Serializable {
         this.coordinates = coordinates;
         this.alive = alive;
         this.name = name;
+    }
+
+    public boolean checkIfShipIsDestroyed(BattlefieldMap map) {
+        ArrayList<Integer> shipCoordinates = (ArrayList<Integer>) this.getCoordinates();
+        for (int i = 0; i < shipCoordinates.size(); i += 2) {
+            int row = shipCoordinates.get(i);
+            int column = shipCoordinates.get(i + 1);
+            if (!map.getGridFields()[row][column].isHit()) {
+                return false; // as soon as there's an unhit field
+            }
+        }
+        this.setAlive(false); // RIP
+        return true;
     }
 
     public List<Integer> getCoordinates() {
