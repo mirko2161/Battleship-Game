@@ -189,7 +189,6 @@ public class BattlefieldMap extends JPanel {
             saveShipPosition();
 
             if (currentShip == lengthOfShips.length - 1) { // TODO: prevent player from moving and removing last ship
-                ((UserStat) accompanyingStat).removeNextShipButton();
                 ((UserStat) accompanyingStat).addDeployFleetButton();
             } else {
                 currentShip++;

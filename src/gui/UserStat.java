@@ -1,8 +1,10 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class UserStat extends Statistics {
 
@@ -10,6 +12,12 @@ public class UserStat extends Statistics {
     private JButton nextShip;
     private JButton deployFleet;
     private StatisticsListener statisticsListener;
+    private JPanel panel;
+
+    public UserStat() {
+        panel = new JPanel(new BorderLayout());
+        add(panel);
+    }
 
     public void addRandomPlacementButton() {
         randomPlacement = new JButton("Random placement");
@@ -20,7 +28,7 @@ public class UserStat extends Statistics {
                 statisticsListener.startGame();
             }
         });
-        add(randomPlacement);
+        panel.add(randomPlacement, BorderLayout.WEST);
     }
 
     public void addNextShipButton() {
@@ -31,13 +39,7 @@ public class UserStat extends Statistics {
                 accompanyingMap.nextShip();
             }
         });
-        add(nextShip);
-    }
-
-    public void removeNextShipButton() {
-        remove(nextShip);
-        revalidate();
-        repaint();
+        panel.add(nextShip, BorderLayout.CENTER);
     }
 
     public void renameButton(String newText) {
@@ -52,7 +54,9 @@ public class UserStat extends Statistics {
                 statisticsListener.startGame();
             }
         });
-        add(deployFleet);
+        panel.remove(randomPlacement);
+        panel.remove(nextShip);
+        panel.add(deployFleet, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
@@ -62,15 +66,9 @@ public class UserStat extends Statistics {
     }
 
     public void removeButtons() {
-        if (randomPlacement != null) {
-            remove(randomPlacement);
-        }
-        if (nextShip != null) {
-            remove(nextShip);
-        }
-        if (deployFleet != null) {
-            remove(deployFleet);
-        }
+        remove(panel);
+        revalidate();
+        repaint();
     }
 
 }

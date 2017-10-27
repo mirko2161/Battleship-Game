@@ -43,7 +43,7 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
             GridLayout layout = new GridLayout(2, 2);
             mainFrame.setLayout(layout);
             mainFrame.addPanels();
-            ((UserStat) mainFrame.getUserStat()).removeNextShipButton();
+            ((UserStat) mainFrame.getUserStat()).removeButtons();
 
             mainFrame.getEnemyMap().setShipsPlaced(true);
             mainFrame.getUserMap().setShipsPlaced(true);
