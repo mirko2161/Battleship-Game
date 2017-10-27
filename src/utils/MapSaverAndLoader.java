@@ -57,10 +57,10 @@ public class MapSaverAndLoader {
     public void repaintMap() {
         for (int row = 0; row < 10; row++) {
             for (int column = 0; column < 10; column++) {
-                if (!map.getSavedStateOfMap()[row][column]) {
-                    map.getGridFields()[row][column].setBackground(Color.BLUE);
-                } else {
+                if (map.getSavedStateOfMap()[row][column] && map.getNameOfMap().equals("user")) {
                     map.getGridFields()[row][column].setBackground(Color.CYAN);
+                } else {
+                    map.getGridFields()[row][column].setBackground(Color.BLUE);
                 }
             }
         }
