@@ -267,11 +267,6 @@ public class BattlefieldMap extends JPanel {
             });
             timer.setRepeats(false);
             timer.start();
-//            try {
-//                Thread.sleep(1500); // freezes the whole window!
-//            } catch (InterruptedException ex) {
-//            }
-//            ((MainFrame) getTopLevelAncestor()).returnFire();
         }
     }
 
