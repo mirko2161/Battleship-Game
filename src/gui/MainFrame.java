@@ -164,7 +164,7 @@ public class MainFrame extends JFrame {
         enemyMap.setAccompanyingStat(enemyStat);
 
         ((UserStat) userStat).addNextShipButton();
-        enemyStat.addNotificationLabel();
+        ((EnemyStat) enemyStat).addNotificationLabel();
 
         ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
             @Override
@@ -186,7 +186,7 @@ public class MainFrame extends JFrame {
     }
 
     public void updateNotificationLabel(String newLabel) {
-        enemyStat.updateNotificationLabel(newLabel);
+        ((EnemyStat) enemyStat).updateNotificationLabel(newLabel);
     }
 
     // TODO: a random fire button for player; hover text - "random fire - give a chance

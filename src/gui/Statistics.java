@@ -14,7 +14,6 @@ public class Statistics extends JPanel {
     protected final JLabel cruiserLabel;
     protected final JLabel submarineLabel;
     protected final JLabel destroyerLabel;
-    protected JLabel notificationLabel;
 
     protected BattlefieldMap accompanyingMap;
 
@@ -54,13 +53,6 @@ public class Statistics extends JPanel {
 
     }
 
-    public void addNotificationLabel() {
-        notificationLabel = new JLabel("Waiting for ship deployment...");
-        notificationLabel.setHorizontalAlignment(JLabel.CENTER);
-        notificationLabel.setFont(notificationLabel.getFont().deriveFont(14f));
-        notificationLabel.setBorder(BorderFactory.createEtchedBorder());
-        add(notificationLabel);
-    }
 
     public void updateShipLabels(String shipName) {
         switch (shipName) {
@@ -82,9 +74,6 @@ public class Statistics extends JPanel {
         }
     }
 
-    public void updateNotificationLabel(String newLabel) {
-        notificationLabel.setText(newLabel);
-    }
 
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
         this.accompanyingMap = accompanyingMap;
