@@ -1,6 +1,7 @@
 package utils;
 
 import gui.MainFrame;
+import gui.UserStat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,7 +40,7 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
         if (fileChooser.showOpenDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
             mainFrame.getContentPane().removeAll(); // could call New Game, but need to move instruction window first
             mainFrame.addPanels();
-            mainFrame.getUserStat().removeNextShipButton();
+            ((UserStat) mainFrame.getUserStat()).removeNextShipButton();
 
             mainFrame.getEnemyMap().setShipsPlaced(true);
             mainFrame.getUserMap().setShipsPlaced(true);

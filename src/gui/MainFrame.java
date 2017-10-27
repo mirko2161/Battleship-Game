@@ -152,7 +152,7 @@ public class MainFrame extends JFrame {
     public void addPanels() {
         enemyMap = new BattlefieldMap("enemy");
         enemyStat = new Statistics();
-        userStat = new Statistics();
+        userStat = new UserStat();
         userMap = new BattlefieldMap("user");
 
         userMap.setMainFrame(this);
@@ -163,10 +163,10 @@ public class MainFrame extends JFrame {
         enemyStat.setAccompanyingMap(enemyMap);
         enemyMap.setAccompanyingStat(enemyStat);
 
-        userStat.addNextShipButton();
+        ((UserStat) userStat).addNextShipButton();
         enemyStat.addNotificationLabel();
 
-        userStat.addStatisticsListener(new StatisticsListener() {
+        ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
                 enemyMap.randomPlacementOfShips();

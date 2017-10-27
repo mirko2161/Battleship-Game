@@ -2,27 +2,21 @@ package gui;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Statistics extends JPanel {
 
-    private final JLabel statLabel;
-    private final JLabel carrierLabel;
-    private final JLabel battleshipLabel;
-    private final JLabel cruiserLabel;
-    private final JLabel submarineLabel;
-    private final JLabel destroyerLabel;
-    private JButton nextShip;
-    private JLabel notificationLabel;
-    private JButton deployFleet;
+    protected final JLabel statLabel;
+    protected final JLabel carrierLabel;
+    protected final JLabel battleshipLabel;
+    protected final JLabel cruiserLabel;
+    protected final JLabel submarineLabel;
+    protected final JLabel destroyerLabel;
+    protected JLabel notificationLabel;
 
-    private BattlefieldMap accompanyingMap;
-    private StatisticsListener statisticsListener;
+    protected BattlefieldMap accompanyingMap;
 
     public Statistics() { // TODO: add better alignment, better look and position
         GridLayout experimentLayout = new GridLayout(7, 1);
@@ -60,18 +54,6 @@ public class Statistics extends JPanel {
 
     }
 
-    public void addNextShipButton() {
-        nextShip = new JButton("Next ship");
-
-        nextShip.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                accompanyingMap.nextShip();
-            }
-        });
-        add(nextShip);
-    }
-
     public void addNotificationLabel() {
         notificationLabel = new JLabel("Waiting for ship deployment...");
         notificationLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -106,37 +88,6 @@ public class Statistics extends JPanel {
 
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
         this.accompanyingMap = accompanyingMap;
-    }
-
-    public void removeNextShipButton() {
-        remove(nextShip);
-        revalidate();
-        repaint();
-    }
-
-    public void renameButton(String newText) {
-        nextShip.setText(newText);
-    }
-
-    public void addDeployFleetButton() {
-        this.deployFleet = new JButton("Deploy Fleet");
-
-        this.deployFleet.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                statisticsListener.startGame();
-                remove(deployFleet);
-                revalidate();
-                repaint();
-            }
-        });
-        add(deployFleet);
-        revalidate();
-        repaint();
-    }
-
-    public void addStatisticsListener(StatisticsListener listener) {
-        this.statisticsListener = listener;
     }
 
 }
