@@ -169,12 +169,14 @@ public class MainFrame extends JFrame {
         enemyMap.setAccompanyingStat(enemyStat);
 
         ((UserStat) userStat).addNextShipButton();
+        ((UserStat) userStat).addRandomPlacementButton();
         ((EnemyStat) enemyStat).addNotificationLabel();
 
         ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
                 enemyMap.randomPlacementOfShips();
+                ((UserStat) userStat).removeButtons();
                 userMap.setShipsPlaced(true);
                 enemyMap.setShipsPlaced(true);
                 updateNotificationLabel("Pick a target to fire upon.");

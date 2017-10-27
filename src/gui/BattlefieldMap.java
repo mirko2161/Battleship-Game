@@ -216,7 +216,7 @@ public class BattlefieldMap extends JPanel {
         }
     }
 
-    public void randomPlacementOfShips() { // TODO: put random button for player, to the left of nextShip
+    public void randomPlacementOfShips() {
         for (currentShip = 0; currentShip < lengthOfShips.length; currentShip++) {
             int row = (int) (Math.random() * 10);
             int column = (int) (Math.random() * 10);
