@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -23,23 +26,23 @@ public class MainFrame extends JFrame {
     private Statistics userStat;
     private BattlefieldMap userMap;
     private final FileSaverAndLoader fileSaver;
+    private final JLabel startText;
 
     public MainFrame(String title) throws HeadlessException {
         super(title);
 
-        GridLayout layout = new GridLayout(2, 2);
-        setLayout(layout);
-
         setJMenuBar(createMenuBar());
-        // TODO: have something on the screen before new game is clicked, like the title
+
         fileSaver = new FileSaverAndLoader();
         fileSaver.setMainFrame(this);
+
+        startText = new JLabel("  Battleship  ");
+        add(startText, BorderLayout.CENTER);
 
         setSize(850, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         setVisible(true);
-
     }
 
     private JMenuBar createMenuBar() {
@@ -80,6 +83,8 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getContentPane().removeAll();
+                GridLayout layout = new GridLayout(2, 2);
+                setLayout(layout);
                 addPanels();
                 showMessageDialog(MainFrame.this, "Click on a field to place a "
                         + "ship horizontaly, right click to place verticaly",
@@ -215,6 +220,30 @@ public class MainFrame extends JFrame {
             updateNotificationLabel("Defeat!");
         }
         removeButtonActions(); // removes clickability
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+        setTextToFit();
+    }
+
+    private void setTextToFit() {
+        Font startTextFont = startText.getFont();
+        String startTextText = startText.getText();
+
+        int stringWidth = startText.getFontMetrics(startTextFont).stringWidth(startTextText);
+        int componentWidth = startText.getWidth();
+
+        // how much the font can grow in width
+        double widthRatio = componentWidth / (double) stringWidth;
+
+        int newFontSize = (int) (startTextFont.getSize() * widthRatio);
+        int componentHeight = startText.getHeight();
+
+        // make sure the new font size will not be larger than the height of startText
+        int fontSizeToUse = Math.min(newFontSize, componentHeight);
+        startText.setFont(new Font(startTextFont.getName(), Font.PLAIN, fontSizeToUse));
     }
 
     public void removeButtonActions() {
