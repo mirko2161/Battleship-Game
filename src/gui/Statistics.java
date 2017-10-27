@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -53,7 +52,6 @@ public class Statistics extends JPanel {
 
     }
 
-
     public void updateShipLabels(String shipName) {
         switch (shipName) {
             case "Carrier":
@@ -73,7 +71,6 @@ public class Statistics extends JPanel {
                 break;
         }
     }
-
 
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
         this.accompanyingMap = accompanyingMap;
