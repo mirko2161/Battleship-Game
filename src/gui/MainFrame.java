@@ -151,7 +151,7 @@ public class MainFrame extends JFrame {
 
     public void addPanels() {
         enemyMap = new BattlefieldMap("enemy");
-        enemyStat = new Statistics();
+        enemyStat = new EnemyStat();
         userStat = new UserStat();
         userMap = new BattlefieldMap("user");
 
