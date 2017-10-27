@@ -2,6 +2,7 @@ package utils;
 
 import gui.MainFrame;
 import gui.UserStat;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,6 +40,8 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
     public void loadFromFile() throws IOException {
         if (fileChooser.showOpenDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
             mainFrame.getContentPane().removeAll(); // could call New Game, but need to move instruction window first
+            GridLayout layout = new GridLayout(2, 2);
+            mainFrame.setLayout(layout);
             mainFrame.addPanels();
             ((UserStat) mainFrame.getUserStat()).removeNextShipButton();
 
