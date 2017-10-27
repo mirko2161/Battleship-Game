@@ -168,8 +168,7 @@ public class MainFrame extends JFrame {
         enemyStat.setAccompanyingMap(enemyMap);
         enemyMap.setAccompanyingStat(enemyStat);
 
-        ((UserStat) userStat).addNextShipButton();
-        ((UserStat) userStat).addRandomPlacementButton();
+        ((UserStat) userStat).addButtons();
         ((EnemyStat) enemyStat).addNotificationLabel();
 
         ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {

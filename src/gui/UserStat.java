@@ -8,19 +8,26 @@ import javax.swing.JPanel;
 
 public class UserStat extends Statistics {
 
+    private final JPanel panel;
     private JButton randomPlacement;
+    private JButton manualPlacement;
     private JButton nextShip;
     private JButton deployFleet;
     private StatisticsListener statisticsListener;
-    private JPanel panel;
 
     public UserStat() {
         panel = new JPanel(new BorderLayout());
         add(panel);
     }
 
+    public void addButtons() {
+        addRandomPlacementButton();
+        addManualPlacementButton();
+    }
+
     public void addRandomPlacementButton() {
         randomPlacement = new JButton("Random placement");
+        randomPlacement.setToolTipText("Take a nap and let your ships drift towards the enemy...");
         randomPlacement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -29,6 +36,20 @@ public class UserStat extends Statistics {
             }
         });
         panel.add(randomPlacement, BorderLayout.WEST);
+    }
+
+    private void addManualPlacementButton() {
+        manualPlacement = new JButton("Expert placement");
+        manualPlacement.setToolTipText("Strategically position your fleet to best the enemy");
+        manualPlacement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.remove(randomPlacement);
+                panel.remove(manualPlacement);
+                addNextShipButton();
+            }
+        });
+        panel.add(manualPlacement, BorderLayout.CENTER);
     }
 
     public void addNextShipButton() {
@@ -40,6 +61,8 @@ public class UserStat extends Statistics {
             }
         });
         panel.add(nextShip, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
     public void renameButton(String newText) {
