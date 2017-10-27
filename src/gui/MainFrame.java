@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     fileSaver.loadFromFile();
-                } catch (IOException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     showMessageDialog(MainFrame.this, "Could not load files!", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }

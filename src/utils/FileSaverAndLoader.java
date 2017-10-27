@@ -37,7 +37,7 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
         }
     }
 
-    public void loadFromFile() throws IOException {
+    public void loadFromFile() throws IOException, ClassNotFoundException {
         if (fileChooser.showOpenDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
             mainFrame.getContentPane().removeAll(); // could call New Game, but need to move instruction window first
             GridLayout layout = new GridLayout(2, 2);

@@ -21,7 +21,7 @@ public class MapSaverAndLoader {
         os.writeObject(map.getSavedStateOfMap());
         os.writeObject(map.getListOfShips());
 
-        for (Field[] gridField : map.getGridFields()) { // TODO: try whole array(make serial. first)
+        for (Field[] gridField : map.getGridFields()) {
             for (Field field : gridField) {
                 os.writeObject(field.isWithShip());
                 os.writeObject(field.isHit());
@@ -29,28 +29,26 @@ public class MapSaverAndLoader {
         }
     }
 
-    public void loadMap(ObjectInputStream ois) throws IOException {
-        try {
-            map.setSavedStateOfMap((boolean[][]) ois.readObject());
-            @SuppressWarnings("unchecked")
-            List<Ship> list = (List<Ship>) ois.readObject();
-            map.setListOfShips(list);
+    public void loadMap(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        map.setSavedStateOfMap((boolean[][]) ois.readObject());
+        @SuppressWarnings("unchecked")
+        List<Ship> list = (List<Ship>) ois.readObject();
+        map.setListOfShips(list);
 
-            repaintMap();
+        repaintMap();
 
-            for (Field[] gridField : map.getGridFields()) {
-                for (Field field : gridField) {
-                    field.setContainsShip((Boolean) ois.readObject());
-                    field.setIsHit((Boolean) ois.readObject());
-                    if (field.isHit() && !field.isWithShip()) {
-                        field.setBackground(Color.GRAY);
-                    } else if (field.isHit() && field.isWithShip()) {
+        for (Field[] gridField : map.getGridFields()) {
+            for (Field field : gridField) {
+                field.setContainsShip((Boolean) ois.readObject());
+                field.setIsHit((Boolean) ois.readObject());
+                if (field.isHit()) {
+                    if (field.isWithShip()) {
                         field.setBackground(Color.RED);
+                    } else {
+                        field.setBackground(Color.GRAY);
                     }
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
     }
 
