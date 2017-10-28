@@ -14,6 +14,7 @@ public class UserStat extends Statistics {
     private JButton nextShip;
     private JButton deployFleet;
     private StatisticsListener statisticsListener;
+    private FireListener fireListener;
 
     public UserStat() {
         panel = new JPanel(new BorderLayout());
@@ -80,8 +81,24 @@ public class UserStat extends Statistics {
         panel.add(deployFleet, BorderLayout.CENTER);
     }
 
+    public void addRandomFireButton() { // check what it does after game over
+        JButton randomFire = new JButton("Random Fire");
+        randomFire.setToolTipText("Give a chance to fire to one of your crew...");
+        randomFire.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fireListener.randomFire("user");
+            }
+        });
+        panel.add(randomFire, BorderLayout.WEST);
+    }
+
     public void addStatisticsListener(StatisticsListener listener) {
         this.statisticsListener = listener;
+    }
+
+    public void addFireListener(FireListener listener) {
+        this.fireListener = listener;
     }
 
     public void removeButtons() {

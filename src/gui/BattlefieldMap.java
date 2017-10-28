@@ -219,7 +219,7 @@ public class BattlefieldMap extends JPanel {
             Timer timer = new Timer(1500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ((MainFrame) getTopLevelAncestor()).returnFire();
+                    ((MainFrame) mainFrame).returnFire("enemy");
                 }
             });
             timer.setRepeats(false);

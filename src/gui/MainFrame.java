@@ -176,6 +176,7 @@ public class MainFrame extends JFrame {
             public void startGame() {
                 enemyMap.randomPlacementOfShips();
                 ((UserStat) userStat).removeButtons();
+                ((UserStat) userStat).addRandomFireButton();
                 userMap.setShipsPlaced(true);
                 enemyMap.setShipsPlaced(true);
                 updateNotificationLabel("Pick a target to fire upon.");
@@ -183,11 +184,16 @@ public class MainFrame extends JFrame {
                         "Battle is joined!", JOptionPane.INFORMATION_MESSAGE);
             }
         });
+        ((UserStat) userStat).addFireListener(new FireListener() {
+            @Override
+            public void randomFire(String mapName) {
+                returnFire(mapName);
+            }
+        });
         add(enemyMap);
         add(enemyStat);
         add(userStat);
         add(userMap);
-
         setVisible(true);
     }
 
@@ -195,19 +201,18 @@ public class MainFrame extends JFrame {
         ((EnemyStat) enemyStat).updateNotificationLabel(newLabel);
     }
 
-    // TODO: a random fire button for player; hover text - "random fire - give a chance
-    // to fire to one of your crew"; replaces the random placement button
-    public void returnFire() {
+    public void returnFire(String mapName) {
+        BattlefieldMap map = mapName.equals("user") ? getEnemyMap() : getUserMap(); // need oposite
         int row, column;
         boolean alreadyHit;
         // TODO: add some logic to fire patterns, like if hit, next time target adjacent fields
         do { // if AI firing, use random coordinates
             row = (int) (Math.random() * 10);
             column = (int) (Math.random() * 10);
-            alreadyHit = userMap.getGridFields()[row][column].isHit();
+            alreadyHit = map.getGridFields()[row][column].isHit();
         } while (alreadyHit);
 
-        userMap.fire(row, column);
+        map.fire(row, column);
     }
 
     public void endTheGame(BattlefieldMap map) {
