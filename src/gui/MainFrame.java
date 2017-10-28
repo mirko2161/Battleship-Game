@@ -160,23 +160,24 @@ public class MainFrame extends JFrame {
         userStat = new UserStat();
         userMap = new BattlefieldMap("user");
 
-        userMap.setMainFrame(this);
         enemyMap.setMainFrame(this);
+        userMap.setMainFrame(this);
 
-        userStat.setAccompanyingMap(userMap);
-        userMap.setAccompanyingStat(userStat);
         enemyStat.setAccompanyingMap(enemyMap);
         enemyMap.setAccompanyingStat(enemyStat);
+        userStat.setAccompanyingMap(userMap);
+        userMap.setAccompanyingStat(userStat);
 
-        ((UserStat) userStat).addButtons();
         ((EnemyStat) enemyStat).addNotificationLabel();
+        UserStat userSt = ((UserStat) userStat);
+        userSt.addButtons();
 
-        ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
+        userSt.addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
                 enemyMap.randomPlacementOfShips();
-                ((UserStat) userStat).removeButtons();
-                ((UserStat) userStat).addRandomFireButton();
+                userSt.removeButtons();
+                userSt.addRandomFireButton();
                 userMap.setShipsPlaced(true);
                 enemyMap.setShipsPlaced(true);
                 updateNotificationLabel("Pick a target to fire upon.");
@@ -184,7 +185,7 @@ public class MainFrame extends JFrame {
                         "Battle is joined!", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        ((UserStat) userStat).addFireListener(new FireListener() {
+        userSt.addFireListener(new FireListener() {
             @Override
             public void randomFire(String mapName) {
                 returnFire(mapName);
@@ -194,6 +195,7 @@ public class MainFrame extends JFrame {
         add(enemyStat);
         add(userStat);
         add(userMap);
+
         setVisible(true);
     }
 

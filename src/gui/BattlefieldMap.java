@@ -197,29 +197,30 @@ public class BattlefieldMap extends JPanel {
     public void fire(int row, int column) {
         Field unluckyBastard = gridFields[row][column];
         unluckyBastard.setIsHit(true);
+        MainFrame main = ((MainFrame) mainFrame);
 
         if (unluckyBastard.isWithShip()) {
             unluckyBastard.setBackground(Color.RED);
 
             if (checkIfAllShipsAreDead()) {
-                ((MainFrame) mainFrame).endTheGame(this);
+                main.endTheGame(this);
                 return; // prevents the dead fleet from firing back
             } else {
                 String newLabel = nameOfMap.equals("enemy") ? "We hit the enemy! They are "
                         + "returning fire..." : "Our ship got hit!";
-                ((MainFrame) mainFrame).updateNotificationLabel(newLabel);
+                main.updateNotificationLabel(newLabel);
             }
         } else {
             String newLabel = nameOfMap.equals("enemy") ? "We missed! Enemy firing..."
                     : "Enemy missed us!";
-            ((MainFrame) mainFrame).updateNotificationLabel(newLabel);
+            main.updateNotificationLabel(newLabel);
             unluckyBastard.setBackground(Color.GRAY);
         }
         if (nameOfMap.equals("enemy")) { // if player fired, return fire, but after delay
             Timer timer = new Timer(1500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ((MainFrame) mainFrame).returnFire("enemy");
+                    main.returnFire("enemy");
                 }
             });
             timer.setRepeats(false);
