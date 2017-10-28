@@ -63,41 +63,47 @@ public class BattlefieldMap extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
-    private void addListener(JButton field) { // TODO: make smaller, segment(second ML when game begins?)
+    private void addListener(JButton field) {
         field.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = ((Field) e.getComponent()).getRow();
-                int column = ((Field) e.getComponent()).getColumn();
-
-                if (getNameOfMap().equals("user")) { // behaviour for player buttons
-                    if (isShipsPlaced()) { // if game can begin, change behavour of fields
-                        showMessageDialog(BattlefieldMap.this, "You can't fire upon your own fleet!",
-                                "Not allowed", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            placeShips(row, column, true); // horizontal placement
-                        } else if (SwingUtilities.isRightMouseButton(e)) {
-                            placeShips(row, column, false); // vertical placement
-                        }
-                    }
-                } else if (getNameOfMap().equals("enemy")) { // behaviour for """AI""" buttons
-                    if (isShipsPlaced()) {
-                        if (((Field) e.getComponent()).isHit()) {
-                            showMessageDialog(BattlefieldMap.this,
-                                    "You can fire in the same place, your crew will laught at you...",
-                                    "Not allowed", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            fire(row, column);
-                        }
-                    } else {
-                        showMessageDialog(BattlefieldMap.this, "You can't place the enemy ships, "
-                                + "that would be cheating!", "Not allowed",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }
+            public void mouseClicked(MouseEvent event) {
+                if (getNameOfMap().equals("user")) {
+                    playerButtonsBehaviour(event);
+                } else if (getNameOfMap().equals("enemy")) {
+                    enemyButtonsBehaviour(event);
                 }
             }
         });
+    }
+
+    private void playerButtonsBehaviour(MouseEvent event) {
+        int row = ((Field) event.getComponent()).getRow();
+        int column = ((Field) event.getComponent()).getColumn();
+        if (isShipsPlaced()) { // if game can begin, change behaviour of fields
+            showMessageDialog(BattlefieldMap.this, "You can't fire upon your own fleet!",
+                    "Not allowed", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            if (SwingUtilities.isLeftMouseButton(event)) {
+                placeShips(row, column, true); // horizontal placement
+            } else if (SwingUtilities.isRightMouseButton(event)) {
+                placeShips(row, column, false); // vertical placement
+            }
+        }
+    }
+
+    private void enemyButtonsBehaviour(MouseEvent event) {
+        Field field = (Field) event.getComponent();
+        if (isShipsPlaced()) {
+            if (field.isHit()) {
+                showMessageDialog(BattlefieldMap.this, "You can fire in the same place, your crew "
+                        + "will laught at you...", "Not allowed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                fire(field.getRow(), field.getColumn());
+            }
+        } else {
+            showMessageDialog(BattlefieldMap.this, "You can't place the enemy ships, that would be "
+                    + "cheating!", "Not allowed", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void placeShips(int row, int column, boolean isHorizontal) {
