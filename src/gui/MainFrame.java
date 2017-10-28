@@ -57,20 +57,20 @@ public class MainFrame extends JFrame {
         JMenuItem newGame = new JMenuItem("New Game");
         JMenuItem saveGame = new JMenuItem("Save...");
         JMenuItem loadGame = new JMenuItem("Load...");
-        JMenuItem forfitGame = new JMenuItem("Forfit Game");
+        JMenuItem forfeitGame = new JMenuItem("Forfeit Game");
         JMenuItem exitGame = new JMenuItem("Exit");
 
         fileMenu.add(newGame);
         fileMenu.add(saveGame);
         fileMenu.add(loadGame);
-        fileMenu.add(forfitGame); // TODO: add f-ty for forfiting games
+        fileMenu.add(forfeitGame);
         fileMenu.add(exitGame);
 
         fileMenu.setMnemonic(KeyEvent.VK_F);
         newGame.setMnemonic(KeyEvent.VK_N);
         saveGame.setMnemonic(KeyEvent.VK_S);
         loadGame.setMnemonic(KeyEvent.VK_L);
-        forfitGame.setMnemonic(KeyEvent.VK_F);
+        forfeitGame.setMnemonic(KeyEvent.VK_F);
         exitGame.setMnemonic(KeyEvent.VK_E);
 
         newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -117,6 +117,21 @@ public class MainFrame extends JFrame {
                 } catch (IOException | ClassNotFoundException ex) {
                     showMessageDialog(MainFrame.this, "Could not load files!", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        forfeitGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (userMap != null && userMap.isShipsPlaced()) {
+                    showMessageDialog(null, "Our fleet is falling back! We have been bested!",
+                            "We surrendered!", JOptionPane.INFORMATION_MESSAGE);
+                    updateNotificationLabel("Defeat!");
+                    removeButtonActions(); // removes clickability
+                } else {
+                    showMessageDialog(MainFrame.this, "We haven't even met the enemy!",
+                            "Shameful display", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -184,6 +199,7 @@ public class MainFrame extends JFrame {
                         "Battle is joined!", JOptionPane.INFORMATION_MESSAGE);
             }
         });
+
         userSt.addFireListener(new FireListener() {
             @Override
             public void randomFire(String mapName) {
