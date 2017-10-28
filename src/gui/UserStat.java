@@ -44,8 +44,7 @@ public class UserStat extends Statistics {
         manualPlacement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.remove(randomPlacement);
-                panel.remove(manualPlacement);
+                removeButtons();
                 addNextShipButton();
             }
         });
@@ -77,11 +76,8 @@ public class UserStat extends Statistics {
                 statisticsListener.startGame();
             }
         });
-        panel.remove(randomPlacement);
-        panel.remove(nextShip);
+        removeButtons();
         panel.add(deployFleet, BorderLayout.CENTER);
-        revalidate();
-        repaint();
     }
 
     public void addStatisticsListener(StatisticsListener listener) {
@@ -89,7 +85,7 @@ public class UserStat extends Statistics {
     }
 
     public void removeButtons() {
-        remove(panel);
+        panel.removeAll();
         revalidate();
         repaint();
     }
