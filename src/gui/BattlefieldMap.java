@@ -4,19 +4,14 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import model.Ship;
+import utils.FieldAdapter;
 import utils.MapSaverAndLoader;
 
 public class BattlefieldMap extends JPanel {
@@ -55,7 +50,7 @@ public class BattlefieldMap extends JPanel {
             for (int column = 0; column < 10; column++) {
                 gridFields[row][column] = new Field(row, column);
                 Field field = gridFields[row][column];
-                addListener(field);
+                field.addMouseListener(new FieldAdapter(this));
                 field.setBackground(Color.BLUE);
                 add(field);
             }
@@ -63,50 +58,7 @@ public class BattlefieldMap extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
-    private void addListener(JButton field) {
-        field.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (getNameOfMap().equals("user")) {
-                    playerButtonsBehaviour(event);
-                } else if (getNameOfMap().equals("enemy")) {
-                    enemyButtonsBehaviour(event);
-                }
-            }
-        });
-    }
-
-    private void playerButtonsBehaviour(MouseEvent event) {
-        int row = ((Field) event.getComponent()).getRow();
-        int column = ((Field) event.getComponent()).getColumn();
-        if (isShipsPlaced()) { // if game can begin, change behaviour of fields
-            showMessageDialog(BattlefieldMap.this, "You can't fire upon your own fleet!",
-                    "Not allowed", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            if (SwingUtilities.isLeftMouseButton(event)) {
-                placeShips(row, column, true); // horizontal placement
-            } else if (SwingUtilities.isRightMouseButton(event)) {
-                placeShips(row, column, false); // vertical placement
-            }
-        }
-    }
-
-    private void enemyButtonsBehaviour(MouseEvent event) {
-        Field field = (Field) event.getComponent();
-        if (isShipsPlaced()) {
-            if (field.isHit()) {
-                showMessageDialog(BattlefieldMap.this, "You can fire in the same place, your crew "
-                        + "will laught at you...", "Not allowed", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                fire(field.getRow(), field.getColumn());
-            }
-        } else {
-            showMessageDialog(BattlefieldMap.this, "You can't place the enemy ships, that would be "
-                    + "cheating!", "Not allowed", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    private void placeShips(int row, int column, boolean isHorizontal) {
+    public void placeShips(int row, int column, boolean isHorizontal) {
         resetMapToPreviousState(); // prevents same ship being placed multiple times
         boolean placed;
         if (isHorizontal) {
