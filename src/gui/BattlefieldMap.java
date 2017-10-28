@@ -146,13 +146,13 @@ public class BattlefieldMap extends JPanel {
                     + " deployed.");
             saveShipPosition();
 
-            if (currentShip == lengthOfShips.length - 1) { // TODO: prevent player from moving and removing last ship
-                ((UserStat) accompanyingStat).addDeployFleetButton();
-            } else {
-                currentShip++;
-                // potential map becomes saved
-                savedStateOfMap = potencialStateOfMap;
+            if (currentShip == lengthOfShips.length - 1) {
+                ((MainFrame) mainFrame).beginGame();
+            } else if (currentShip == lengthOfShips.length - 2) {
+                ((UserStat) accompanyingStat).renameButton("Deploy ships");
             }
+            currentShip++;
+            savedStateOfMap = potencialStateOfMap; // potential map becomes saved
         } else {
             ((MainFrame) mainFrame).updateNotificationLabel("Must place "
                     + listOfShipNames[currentShip] + " to continue!");

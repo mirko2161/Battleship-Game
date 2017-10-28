@@ -66,18 +66,6 @@ public class UserStat extends Statistics {
         nextShip.setText(newText);
     }
 
-    public void addDeployFleetButton() {
-        JButton deployFleet = new JButton("Deploy Fleet");
-        deployFleet.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                statisticsListener.startGame();
-            }
-        });
-        removeButtons();
-        panel.add(deployFleet, BorderLayout.CENTER);
-    }
-
     public void addRandomFireButton() { // check what it does after game over
         JButton randomFire = new JButton("Random Fire");
         randomFire.setToolTipText("Give a chance to fire to one of your crew...");

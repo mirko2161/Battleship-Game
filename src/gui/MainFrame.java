@@ -189,14 +189,7 @@ public class MainFrame extends JFrame {
         userSt.addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
-                enemyMap.randomPlacementOfShips();
-                userSt.removeButtons();
-                userSt.addRandomFireButton();
-                userMap.setShipsPlaced(true);
-                enemyMap.setShipsPlaced(true);
-                updateNotificationLabel("Pick a target to fire upon.");
-                showMessageDialog(MainFrame.this, "Choose an enemy field to fire upon!",
-                        "Battle is joined!", JOptionPane.INFORMATION_MESSAGE);
+                beginGame();
             }
         });
 
@@ -212,6 +205,19 @@ public class MainFrame extends JFrame {
         add(userMap);
 
         setVisible(true);
+    }
+
+    public void beginGame() {
+        enemyMap.randomPlacementOfShips();
+        ((UserStat) userStat).removeButtons();
+        ((UserStat) userStat).addRandomFireButton();
+
+        userMap.setShipsPlaced(true);
+        enemyMap.setShipsPlaced(true);
+
+        updateNotificationLabel("Pick a target to fire upon.");
+        showMessageDialog(this, "Choose an enemy field to fire upon!", "Battle is joined!",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void updateNotificationLabel(String newLabel) {
