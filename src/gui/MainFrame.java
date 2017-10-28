@@ -101,14 +101,7 @@ public class MainFrame extends JFrame {
         loadGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userMap != null && userMap.isShipsPlaced()) {
-                    int clicked = JOptionPane.showConfirmDialog(MainFrame.this, "Do you want to "
-                            + "save the game first?", "Confirm exit from current game",
-                            JOptionPane.YES_NO_OPTION);
-                    if (clicked == JOptionPane.OK_OPTION) {
-                        saveGame();
-                    }
-                }
+                saveBeforeExit();
                 try {
                     fileSaver.loadFromFile();
                 } catch (IOException | ClassNotFoundException ex) {
@@ -136,6 +129,7 @@ public class MainFrame extends JFrame {
         exitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                saveBeforeExit();
                 int clicked = JOptionPane.showConfirmDialog(MainFrame.this, "Are you sure you want "
                         + "to quit?", "Confirm exit", JOptionPane.OK_CANCEL_OPTION);
                 if (clicked == JOptionPane.OK_OPTION) {
@@ -156,6 +150,16 @@ public class MainFrame extends JFrame {
         } else {
             showMessageDialog(this, "Cannot save file - game hasn't started!", "Game not saved",
                     JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void saveBeforeExit() {
+        if (userMap != null && userMap.isShipsPlaced()) {
+            int clicked = JOptionPane.showConfirmDialog(MainFrame.this, "Do you want to save the "
+                    + "game first?", "Confirm exit from current game", JOptionPane.YES_NO_OPTION);
+            if (clicked == JOptionPane.OK_OPTION) {
+                saveGame();
+            }
         }
     }
 
