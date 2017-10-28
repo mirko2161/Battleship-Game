@@ -9,10 +9,7 @@ import javax.swing.JPanel;
 public class UserStat extends Statistics {
 
     private final JPanel panel;
-    private JButton randomPlacement;
-    private JButton manualPlacement;
     private JButton nextShip;
-    private JButton deployFleet;
     private StatisticsListener statisticsListener;
     private FireListener fireListener;
 
@@ -27,7 +24,7 @@ public class UserStat extends Statistics {
     }
 
     public void addRandomPlacementButton() {
-        randomPlacement = new JButton("Random placement");
+        JButton randomPlacement = new JButton("Random placement");
         randomPlacement.setToolTipText("Take a nap and let your ships drift towards the enemy...");
         randomPlacement.addActionListener(new ActionListener() {
             @Override
@@ -40,7 +37,7 @@ public class UserStat extends Statistics {
     }
 
     private void addManualPlacementButton() {
-        manualPlacement = new JButton("Expert placement");
+        JButton manualPlacement = new JButton("Expert placement");
         manualPlacement.setToolTipText("Strategically position your fleet to best the enemy");
         manualPlacement.addActionListener(new ActionListener() {
             @Override
@@ -70,8 +67,8 @@ public class UserStat extends Statistics {
     }
 
     public void addDeployFleetButton() {
-        this.deployFleet = new JButton("Deploy Fleet");
-        this.deployFleet.addActionListener(new ActionListener() {
+        JButton deployFleet = new JButton("Deploy Fleet");
+        deployFleet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 statisticsListener.startGame();
