@@ -272,6 +272,7 @@ public class MainFrame extends JFrame {
     public void removeButtonActions() {
         userMap.removeButtonActions();
         enemyMap.removeButtonActions();
+        ((UserStat) userStat).removeButtons();
     }
 
     public BattlefieldMap getEnemyMap() {
