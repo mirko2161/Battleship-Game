@@ -60,5 +60,4 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
         mainFrame.revalidate();
         mainFrame.repaint();
     }
-
 }

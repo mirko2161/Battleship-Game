@@ -106,5 +106,4 @@ public class UserStat extends Statistics {
         revalidate();
         repaint();
     }
-
 }

@@ -20,5 +20,4 @@ public class ShipLabel extends JLabel {
             repaint();
         }
     }
-
 }

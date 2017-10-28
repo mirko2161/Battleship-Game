@@ -44,5 +44,4 @@ public class Field extends JButton {
             removeMouseListener(listener);
         }
     }
-
 }

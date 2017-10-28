@@ -58,5 +58,4 @@ public class FieldAdapter extends MouseAdapter {
     public void setMap(BattlefieldMap map) {
         this.map = map;
     }
-
 }

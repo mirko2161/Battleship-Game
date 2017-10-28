@@ -52,5 +52,4 @@ public class Ship implements Serializable {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
-
 }

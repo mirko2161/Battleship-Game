@@ -32,7 +32,6 @@ public class MainFrame extends JFrame {
         super(title);
 
         setJMenuBar(createMenuBar());
-
         fileSaver = new FileSaverAndLoader();
         fileSaver.setMainFrame(this);
 

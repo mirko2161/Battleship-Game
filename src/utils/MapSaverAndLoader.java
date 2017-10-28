@@ -64,5 +64,4 @@ public class MapSaverAndLoader {
         }
         map.setPotencialStateOfMap(map.getSavedStateOfMap());
     }
-
 }

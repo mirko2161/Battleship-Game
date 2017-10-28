@@ -188,7 +188,7 @@ public class BattlefieldMap extends JPanel {
             if (placed) {
                 saveShipPosition();
                 savedStateOfMap = potencialStateOfMap;
-            } else { // if ship placement failed, try again
+            } else { // if ship placement failed - try again
                 currentShip--;
             }
         }

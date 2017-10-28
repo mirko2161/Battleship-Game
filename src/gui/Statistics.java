@@ -19,7 +19,7 @@ public class Statistics extends JPanel {
     public Statistics() { // TODO: add better alignment, better look and position
         GridLayout experimentLayout = new GridLayout(7, 1);
         setLayout(experimentLayout);
-        // TODO: myb add behaviour for num of ships remaining to place, then swich to num of alive ships
+        // TODO: add behaviour for num of ships remaining to place, then swich to num of alive ships
 
         statLabel = new JLabel("Number of ships remaining:");
         carrierLabel = new ShipLabel(1, " x Carrier");

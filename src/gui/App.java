@@ -11,7 +11,6 @@ public class App {
                 new MainFrame("Battleship the Game by Mirko");
             }
         });
-
     }
 
 }
