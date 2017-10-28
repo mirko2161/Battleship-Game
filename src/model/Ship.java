@@ -20,7 +20,7 @@ public class Ship implements Serializable {
     }
 
     public boolean checkIfShipIsDestroyed(BattlefieldMap map) {
-        ArrayList<Integer> shipCoordinates = (ArrayList<Integer>) this.getCoordinates();
+        ArrayList<Integer> shipCoordinates = (ArrayList<Integer>) this.coordinates;
         for (int i = 0; i < shipCoordinates.size(); i += 2) {
             int row = shipCoordinates.get(i);
             int column = shipCoordinates.get(i + 1);
@@ -30,10 +30,6 @@ public class Ship implements Serializable {
         }
         this.setAlive(false); // RIP
         return true;
-    }
-
-    public List<Integer> getCoordinates() {
-        return coordinates;
     }
 
     public boolean isAlive() {
@@ -52,4 +48,5 @@ public class Ship implements Serializable {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
 }

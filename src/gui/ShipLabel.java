@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 public class ShipLabel extends JLabel {
 
     private int numOfShipsRemaining;
-    private String name;
+    private final String name;
 
     public ShipLabel(int numOfShipsRemaining, String name) {
         super(numOfShipsRemaining + name);
@@ -20,4 +20,5 @@ public class ShipLabel extends JLabel {
             repaint();
         }
     }
+
 }

@@ -13,14 +13,11 @@ import javax.swing.JFileChooser;
 
 public class FileSaverAndLoader { // TODO: limit file save/load to .save files
 
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
     private final JFileChooser fileChooser;
 
-    public FileSaverAndLoader() {
-        fileChooser = new JFileChooser();
-    }
-
-    public void setMainFrame(MainFrame mainFrame) {
+    public FileSaverAndLoader(MainFrame mainFrame) {
+        this.fileChooser = new JFileChooser();
         this.mainFrame = mainFrame;
     }
 
@@ -60,4 +57,5 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
         mainFrame.revalidate();
         mainFrame.repaint();
     }
+
 }

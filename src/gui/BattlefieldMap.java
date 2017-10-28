@@ -67,30 +67,30 @@ public class BattlefieldMap extends JPanel {
             placed = putShipOnMapVertically(lengthOfShips[currentShip], row, column);
         }
 
-        String label;
+        String newLabel;
         if (placed) {
-            label = listOfShipNames[currentShip] + " placed.";
+            newLabel = listOfShipNames[currentShip] + " placed.";
         } else {
-            label = "Cannot place ship there.";
+            newLabel = "Cannot place ship there.";
             resetMapToPreviousState();
         }
-        ((MainFrame) mainFrame).updateNotificationLabel(label);
+        ((MainFrame) mainFrame).updateNotificationLabel(newLabel);
     }
 
     private void resetMapToPreviousState() {
         for (int row = 0; row < 10; row++) {
             for (int column = 0; column < 10; column++) {
-                if (!savedStateOfMap[row][column]) {
+                if (!savedStateOfMap[row][column]) { // unchanged until confir, so can be used for reset
                     gridFields[row][column].setBackground(Color.BLUE);
                     gridFields[row][column].setContainsShip(false);
                 }
             }
         }
-        potencialStateOfMap = savedStateOfMap;
+        potencialStateOfMap = savedStateOfMap; // so it can't pass the nextShip condition
     }
 
     private boolean putShipOnMapHorizontally(int lengthOfShip, int row, int column) {
-        // update potencial to be like saved so it can be changed
+        // to be a diff object for nextShip check AND be usefull for saveShipPosition
         potencialStateOfMap = new boolean[savedStateOfMap.length][];
         for (int i = 0; i < savedStateOfMap.length; i++) {
             potencialStateOfMap[i] = savedStateOfMap[i].clone();
@@ -146,7 +146,7 @@ public class BattlefieldMap extends JPanel {
                     + " deployed.");
             saveShipPosition();
 
-            if (currentShip == lengthOfShips.length - 1) {
+            if (currentShip == lengthOfShips.length - 1) { // last ship placement confirmed
                 ((MainFrame) mainFrame).beginGame();
             } else if (currentShip == lengthOfShips.length - 2) {
                 ((UserStat) accompanyingStat).renameButton("Deploy ships");
@@ -246,8 +246,7 @@ public class BattlefieldMap extends JPanel {
     public void removeButtonActions() {
         for (int row = 0; row < 10; row++) {
             for (int column = 0; column < 10; column++) {
-                Field field = gridFields[row][column];
-                field.removeAllMouseListeners();
+                gridFields[row][column].removeAllMouseListeners();
             }
         }
     }

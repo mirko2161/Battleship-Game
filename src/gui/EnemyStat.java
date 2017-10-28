@@ -18,4 +18,5 @@ public class EnemyStat extends Statistics {
     public void updateNotificationLabel(String newLabel) {
         notificationLabel.setText(newLabel);
     }
+
 }

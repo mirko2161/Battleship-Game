@@ -58,16 +58,15 @@ public class UserStat extends Statistics {
                 accompanyingMap.nextShip();
             }
         });
+        nextShip.setMnemonic(KeyEvent.VK_N);
         panel.add(nextShip, BorderLayout.CENTER);
-        revalidate();
-        repaint();
     }
 
     public void renameButton(String newText) {
         nextShip.setText(newText);
     }
 
-    public void addRandomFireButton() { // check what it does after game over
+    public void addRandomFireButton() {
         JButton randomFire = new JButton("Random Fire");
         randomFire.setToolTipText("Give a chance to fire to one of your crew...");
         randomFire.addActionListener(new ActionListener() {
@@ -93,4 +92,5 @@ public class UserStat extends Statistics {
         revalidate();
         repaint();
     }
+
 }

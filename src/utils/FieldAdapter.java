@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 
 public class FieldAdapter extends MouseAdapter {
 
-    BattlefieldMap map;
+    private final BattlefieldMap map;
 
     public FieldAdapter(BattlefieldMap map) {
         this.map = map;
@@ -55,7 +55,4 @@ public class FieldAdapter extends MouseAdapter {
         }
     }
 
-    public void setMap(BattlefieldMap map) {
-        this.map = map;
-    }
 }

@@ -49,7 +49,6 @@ public class Statistics extends JPanel {
         add(cruiserLabel);
         add(submarineLabel);
         add(destroyerLabel);
-
     }
 
     public void updateShipLabels(String shipName) {

@@ -11,7 +11,7 @@ import model.Ship;
 
 public class MapSaverAndLoader {
 
-    private BattlefieldMap map;
+    private final BattlefieldMap map;
 
     public MapSaverAndLoader(BattlefieldMap map) {
         this.map = map;
@@ -64,4 +64,5 @@ public class MapSaverAndLoader {
         }
         map.setPotencialStateOfMap(map.getSavedStateOfMap());
     }
+
 }

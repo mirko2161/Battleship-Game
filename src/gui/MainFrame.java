@@ -32,8 +32,7 @@ public class MainFrame extends JFrame {
         super(title);
 
         setJMenuBar(createMenuBar());
-        fileSaver = new FileSaverAndLoader();
-        fileSaver.setMainFrame(this);
+        fileSaver = new FileSaverAndLoader(this);
 
         startText = new JLabel("  Battleship  ");
         add(startText, BorderLayout.CENTER);
@@ -48,7 +47,6 @@ public class MainFrame extends JFrame {
         menuBar = new JMenuBar();
         setUpFileMenu();
         setUpUsersMenu();
-
         return menuBar;
     }
 
@@ -141,7 +139,7 @@ public class MainFrame extends JFrame {
     }
 
     private void saveGame() {
-        if (userMap != null && userMap.isShipsPlaced()) {
+        if (userMap != null && userMap.isShipsPlaced()) { // checks that it has something to save
             try {
                 fileSaver.saveToFile();
             } catch (IOException ex) {
@@ -206,7 +204,6 @@ public class MainFrame extends JFrame {
                 beginGame();
             }
         });
-
         userSt.addFireListener(new FireListener() {
             @Override
             public void randomFire(String mapName) {
@@ -271,7 +268,7 @@ public class MainFrame extends JFrame {
         setTextToFit();
     }
 
-    private void setTextToFit() {
+    private void setTextToFit() { // resizable "title" text
         Font startTextFont = startText.getFont();
         String startTextText = startText.getText();
 
