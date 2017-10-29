@@ -52,7 +52,7 @@ public class MapSaverAndLoader {
         }
     }
 
-    public void repaintMap() {
+    private void repaintMap() {
         Field[][] fields = map.getGridFields();
         for (int row = 0; row < fields.length; row++) {
             for (int column = 0; column < fields[row].length; column++) {

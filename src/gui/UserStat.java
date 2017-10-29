@@ -24,7 +24,7 @@ public class UserStat extends Statistics {
         addManualPlacementButton();
     }
 
-    public void addRandomPlacementButton() {
+    private void addRandomPlacementButton() {
         JButton randomPlacement = new JButton("Random placement");
         randomPlacement.setToolTipText("Take a nap and let your ships drift towards the enemy...");
         randomPlacement.addActionListener(new ActionListener() {

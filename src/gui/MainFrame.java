@@ -284,7 +284,7 @@ public class MainFrame extends JFrame {
         startText.setFont(new Font(startTextFont.getName(), Font.PLAIN, fontSizeToUse));
     }
 
-    public void removeButtonActions() {
+    private void removeButtonActions() {
         userMap.removeButtonActions();
         enemyMap.removeButtonActions();
         ((UserStat) userStat).removeButtons();

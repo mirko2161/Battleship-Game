@@ -230,7 +230,7 @@ public class BattlefieldMap extends JPanel {
         }
     }
 
-    public boolean checkIfAllShipsAreDead() {
+    private boolean checkIfAllShipsAreDead() {
         boolean allShipsDead = true;
         for (Ship ship : listOfShips) {
             if (ship.isAlive()) { // skip dead ships
