@@ -246,9 +246,9 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void removeButtonActions() {
-        for (int row = 0; row < gridFields.length; row++) {
-            for (int column = 0; column < gridFields[row].length; column++) {
-                gridFields[row][column].removeAllMouseListeners();
+        for (Field[] fields : gridFields) {
+            for (Field field : fields) {
+                field.removeAllMouseListeners();
             }
         }
     }

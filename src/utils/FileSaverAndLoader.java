@@ -25,12 +25,10 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
         if (fileChooser.showSaveDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             FileOutputStream fs = new FileOutputStream(file);
-            ObjectOutputStream os = new ObjectOutputStream(fs);
-
-            mainFrame.getEnemyMap().getSaveOrLoad().saveMap(os);
-            mainFrame.getUserMap().getSaveOrLoad().saveMap(os);
-
-            os.close();
+            try (ObjectOutputStream os = new ObjectOutputStream(fs)) {
+                mainFrame.getEnemyMap().getSaveOrLoad().saveMap(os);
+                mainFrame.getUserMap().getSaveOrLoad().saveMap(os);
+            }
         }
     }
 
@@ -47,12 +45,10 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
 
             File file = fileChooser.getSelectedFile();
             FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            mainFrame.getEnemyMap().getSaveOrLoad().loadMap(ois);
-            mainFrame.getUserMap().getSaveOrLoad().loadMap(ois);
-
-            ois.close();
+            try (ObjectInputStream ois = new ObjectInputStream(fis)) {
+                mainFrame.getEnemyMap().getSaveOrLoad().loadMap(ois);
+                mainFrame.getUserMap().getSaveOrLoad().loadMap(ois);
+            }
         }
         mainFrame.revalidate();
         mainFrame.repaint();
