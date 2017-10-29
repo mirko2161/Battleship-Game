@@ -53,12 +53,13 @@ public class MapSaverAndLoader {
     }
 
     public void repaintMap() {
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 10; column++) {
+        Field[][] fields = map.getGridFields();
+        for (int row = 0; row < fields.length; row++) {
+            for (int column = 0; column < fields[row].length; column++) {
                 if (map.getSavedStateOfMap()[row][column] && map.getNameOfMap().equals("user")) {
-                    map.getGridFields()[row][column].setBackground(Color.CYAN);
+                    fields[row][column].setBackground(Color.CYAN);
                 } else {
-                    map.getGridFields()[row][column].setBackground(Color.BLUE);
+                    fields[row][column].setBackground(Color.BLUE);
                 }
             }
         }

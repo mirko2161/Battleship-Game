@@ -31,14 +31,15 @@ public class BattlefieldMap extends JPanel {
     private final MapSaverAndLoader saveOrLoad;
 
     public BattlefieldMap(String name) {
-        GridLayout layout = new GridLayout(10, 10);
+        int numOfRows = 10, numOfColumns = 10;
+        GridLayout layout = new GridLayout(numOfRows, numOfColumns);
         setLayout(layout);
 
         this.nameOfMap = name;
-        this.gridFields = new Field[10][10];
+        this.gridFields = new Field[numOfRows][numOfColumns];
         this.lengthOfShips = new int[]{5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2};
 //        this.lengthOfShips = new int[]{5, 4, 3, 3}; // for quicker test
-        this.savedStateOfMap = new boolean[10][10];
+        this.savedStateOfMap = new boolean[numOfRows][numOfColumns];
         this.potencialStateOfMap = savedStateOfMap;
         this.listOfShips = new ArrayList<>(lengthOfShips.length);
         this.listOfShipNames = new String[]{"Carrier", "Battleship", "Battleship", "Cruiser",
@@ -46,8 +47,8 @@ public class BattlefieldMap extends JPanel {
             "Destroyer", "Destroyer", "Destroyer", "Destroyer", "Destroyer"};
         this.saveOrLoad = new MapSaverAndLoader(this);
 
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 10; column++) {
+        for (int row = 0; row < numOfRows; row++) {
+            for (int column = 0; column < numOfColumns; column++) {
                 gridFields[row][column] = new Field(row, column);
                 Field field = gridFields[row][column];
                 field.addMouseListener(new FieldAdapter(this));
@@ -78,8 +79,8 @@ public class BattlefieldMap extends JPanel {
     }
 
     private void resetMapToPreviousState() {
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 10; column++) {
+        for (int row = 0; row < gridFields.length; row++) {
+            for (int column = 0; column < gridFields[row].length; column++) {
                 if (!savedStateOfMap[row][column]) { // unchanged until confir, so can be used for reset
                     gridFields[row][column].setBackground(Color.BLUE);
                     gridFields[row][column].setContainsShip(false);
@@ -95,7 +96,7 @@ public class BattlefieldMap extends JPanel {
         for (int i = 0; i < savedStateOfMap.length; i++) {
             potencialStateOfMap[i] = savedStateOfMap[i].clone();
         }
-        if (lengthOfShip > 10 - column) { // can it fit
+        if (lengthOfShip > gridFields[0].length - column) { // can it fit
             return false;
         }
         for (int i = 0; i < lengthOfShip; i++) { // if any of the fields already contains a ship, abort
@@ -120,7 +121,7 @@ public class BattlefieldMap extends JPanel {
         for (int i = 0; i < savedStateOfMap.length; i++) {
             potencialStateOfMap[i] = savedStateOfMap[i].clone();
         }
-        if (lengthOfShip > 10 - row) {
+        if (lengthOfShip > gridFields.length - row) {
             return false;
         }
         for (int i = 0; i < lengthOfShip; i++) {
@@ -148,7 +149,7 @@ public class BattlefieldMap extends JPanel {
 
             if (currentShip == lengthOfShips.length - 1) { // last ship placement confirmed
                 ((MainFrame) mainFrame).beginGame();
-            } else if (currentShip == lengthOfShips.length - 2) {
+            } else if (currentShip == lengthOfShips.length - 2) { // next to last ship
                 ((UserStat) accompanyingStat).renameButton("Deploy ships");
             }
             currentShip++;
@@ -175,8 +176,8 @@ public class BattlefieldMap extends JPanel {
 
     public void randomPlacementOfShips() {
         for (currentShip = 0; currentShip < lengthOfShips.length; currentShip++) {
-            int row = (int) (Math.random() * 10);
-            int column = (int) (Math.random() * 10);
+            int row = (int) (Math.random() * gridFields.length);
+            int column = (int) (Math.random() * gridFields[0].length);
             boolean isHorizontal = Math.random() < 0.5;
 
             boolean placed;
@@ -217,7 +218,8 @@ public class BattlefieldMap extends JPanel {
             unluckyBastard.setBackground(Color.GRAY);
         }
         if (nameOfMap.equals("enemy")) { // if player fired, return fire, but after delay
-            Timer timer = new Timer(1500, new ActionListener() {
+            int delayInMilliseconds = 1500;
+            Timer timer = new Timer(delayInMilliseconds, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     main.returnFire("enemy");
@@ -244,8 +246,8 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void removeButtonActions() {
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 10; column++) {
+        for (int row = 0; row < gridFields.length; row++) {
+            for (int column = 0; column < gridFields[row].length; column++) {
                 gridFields[row][column].removeAllMouseListeners();
             }
         }
