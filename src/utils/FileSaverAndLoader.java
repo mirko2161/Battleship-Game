@@ -14,14 +14,13 @@ import javax.swing.JFileChooser;
 public class FileSaverAndLoader { // TODO: limit file save/load to .save files
 
     private final MainFrame mainFrame;
-    private final JFileChooser fileChooser;
 
     public FileSaverAndLoader(MainFrame mainFrame) {
-        this.fileChooser = new JFileChooser();
         this.mainFrame = mainFrame;
     }
 
     public void saveToFile() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showSaveDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             FileOutputStream fs = new FileOutputStream(file);
@@ -33,6 +32,7 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
     }
 
     public void loadFromFile() throws IOException, ClassNotFoundException {
+        JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
             mainFrame.getContentPane().removeAll(); // could call New Game, but need to move instruction window first
             GridLayout layout = new GridLayout(2, 2);

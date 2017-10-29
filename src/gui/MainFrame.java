@@ -25,14 +25,12 @@ public class MainFrame extends JFrame {
     private Statistics enemyStat;
     private Statistics userStat;
     private BattlefieldMap userMap;
-    private final FileSaverAndLoader fileSaver;
     private final JLabel startText;
 
     public MainFrame(String title) throws HeadlessException {
         super(title);
 
         setJMenuBar(createMenuBar());
-        fileSaver = new FileSaverAndLoader(this);
 
         startText = new JLabel("  Battleship  ");
         add(startText, BorderLayout.CENTER);
@@ -101,7 +99,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 saveBeforeExit();
                 try {
-                    fileSaver.loadFromFile();
+                    new FileSaverAndLoader(MainFrame.this).loadFromFile();
                 } catch (IOException | ClassNotFoundException ex) {
                     showMessageDialog(MainFrame.this, "Could not load files!", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -141,7 +139,7 @@ public class MainFrame extends JFrame {
     private void saveGame() {
         if (userMap != null && userMap.isShipsPlaced()) { // checks that it has something to save
             try {
-                fileSaver.saveToFile();
+                new FileSaverAndLoader(this).saveToFile();
             } catch (IOException ex) {
                 showMessageDialog(this, "Could not save game!", "Error", JOptionPane.ERROR_MESSAGE);
             }
