@@ -30,7 +30,7 @@ public class UserStat extends Statistics {
         randomPlacement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                accompanyingMap.randomPlacementOfShips();
+                getAccompanyingMap().randomPlacementOfShips();
                 statisticsListener.startGame();
             }
         });
@@ -55,7 +55,7 @@ public class UserStat extends Statistics {
         nextShip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                accompanyingMap.nextShip();
+                getAccompanyingMap().nextShip();
             }
         });
         nextShip.setMnemonic(KeyEvent.VK_N);

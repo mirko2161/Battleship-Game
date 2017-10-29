@@ -7,14 +7,14 @@ import javax.swing.JPanel;
 
 public class Statistics extends JPanel {
 
-    protected final JLabel statLabel;
-    protected final JLabel carrierLabel;
-    protected final JLabel battleshipLabel;
-    protected final JLabel cruiserLabel;
-    protected final JLabel submarineLabel;
-    protected final JLabel destroyerLabel;
+    private final JLabel statLabel;
+    private final JLabel carrierLabel;
+    private final JLabel battleshipLabel;
+    private final JLabel cruiserLabel;
+    private final JLabel submarineLabel;
+    private final JLabel destroyerLabel;
 
-    protected BattlefieldMap accompanyingMap;
+    private BattlefieldMap accompanyingMap;
 
     public Statistics() { // TODO: add better alignment, better look and position
         GridLayout experimentLayout = new GridLayout(7, 1);
@@ -73,6 +73,10 @@ public class Statistics extends JPanel {
 
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
         this.accompanyingMap = accompanyingMap;
+    }
+
+    public BattlefieldMap getAccompanyingMap() {
+        return accompanyingMap;
     }
 
 }
