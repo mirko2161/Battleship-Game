@@ -193,17 +193,13 @@ public class MainFrame extends JFrame {
         userStat.setAccompanyingMap(userMap);
         userMap.setAccompanyingStat(userStat);
 
-        ((EnemyStat) enemyStat).addNotificationLabel();
-        UserStat userSt = ((UserStat) userStat);
-        userSt.addButtons();
-
-        userSt.addStatisticsListener(new StatisticsListener() {
+        ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
                 beginGame();
             }
         });
-        userSt.addFireListener(new FireListener() {
+        ((UserStat) userStat).addFireListener(new FireListener() {
             @Override
             public void randomFire(String mapName) {
                 returnFire(mapName);

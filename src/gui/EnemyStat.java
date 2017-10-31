@@ -10,7 +10,11 @@ public class EnemyStat extends Statistics {
 
     private JLabel notificationLabel;
 
-    public void addNotificationLabel() {
+    public EnemyStat() {
+        addNotificationLabel();
+    }
+
+    private void addNotificationLabel() {
         notificationLabel = new JLabel("Waiting for ship deployment...");
         notificationLabel.setHorizontalAlignment(JLabel.CENTER);
         float textSize = 18.0f;

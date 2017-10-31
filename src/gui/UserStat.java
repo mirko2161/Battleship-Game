@@ -21,9 +21,10 @@ public class UserStat extends Statistics {
         panel.setPreferredSize(new Dimension(60, 60));
         fontSize = 20;
         super.add(panel, BorderLayout.SOUTH);
+        this.addButtons();
     }
 
-    public void addButtons() {
+    private void addButtons() {
         addRandomPlacementButton();
         addManualPlacementButton();
     }
@@ -56,7 +57,7 @@ public class UserStat extends Statistics {
         panel.add(manualPlacement, BorderLayout.CENTER);
     }
 
-    public void addNextShipButton() {
+    private void addNextShipButton() {
         nextShip = new JButton("Next ship");
         nextShip.setFont(nextShip.getFont().deriveFont(fontSize));
         nextShip.addActionListener(new ActionListener() {
