@@ -11,6 +11,7 @@ public class EnemyStat extends Statistics {
     private JLabel notificationLabel;
 
     public EnemyStat() {
+        getNameLabel().setText("User stat: ");
         getComponent(0).setVisible(false);
         addNotificationLabel();
     }

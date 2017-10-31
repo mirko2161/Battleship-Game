@@ -16,6 +16,7 @@ public class Statistics extends JPanel {
     private final JLabel cruiserLabel;
     private final JLabel submarineLabel;
     private final JLabel destroyerLabel;
+    private final JLabel nameLabel;
     private final JLabel hitMissLabel;
     private final JLabel accuracyLabel;
     private int hits;
@@ -24,7 +25,6 @@ public class Statistics extends JPanel {
     private BattlefieldMap accompanyingMap;
 
     public Statistics() {
-        // TODO: add behaviour for num of ships remaining to place, then swich to num of alive ships
         this.setLayout(new BorderLayout()); // contains textAndStatsPanel and user buttons/notifications
 
         JPanel textAndStatsPanel = new JPanel(); // contains titlePanel, shipsPanel, and statsPanel
@@ -71,15 +71,19 @@ public class Statistics extends JPanel {
         // 3. panel
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.LINE_AXIS));
+
+        nameLabel = new JLabel("");
         hitMissLabel = new JLabel("Hits/Misses: " + "0/0");
         accuracyLabel = new JLabel("Accuracy: " + "0%");
 
         Font newFont = hitMissLabel.getFont().deriveFont(14f);
+        nameLabel.setFont(newFont);
         hitMissLabel.setFont(newFont);
         accuracyLabel.setFont(newFont);
         hitMissLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
         accuracyLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
 
+        statsPanel.add(nameLabel);
         statsPanel.add(hitMissLabel);
         statsPanel.add(accuracyLabel);
 
@@ -128,6 +132,10 @@ public class Statistics extends JPanel {
         int total = hits + misses;
         int accuracy = (int) ((double) hits / total * 100.0);
         accuracyLabel.setText("Accuracy: " + accuracy + "%");
+    }
+
+    public JLabel getNameLabel() {
+        return nameLabel;
     }
 
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {

@@ -46,11 +46,12 @@ public class BattlefieldMap extends JPanel {
             "Destroyer", "Destroyer", "Destroyer", "Destroyer", "Destroyer"};
         this.saveOrLoad = new MapSaverAndLoader(this);
 
+        FieldAdapter fieldAdapter = new FieldAdapter(this);
         for (int row = 0; row < numOfRows; row++) {
             for (int column = 0; column < numOfColumns; column++) {
                 gridFields[row][column] = new Field(row, column);
                 Field field = gridFields[row][column];
-                field.addMouseListener(new FieldAdapter(this));
+                field.addMouseListener(fieldAdapter);
                 field.setBackground(Color.BLUE);
                 add(field);
             }

@@ -29,7 +29,7 @@ public class FieldAdapter extends MouseAdapter {
         int row = ((Field) event.getComponent()).getRow();
         int column = ((Field) event.getComponent()).getColumn();
         if (map.isShipsPlaced()) { // if game can begin, change behaviour of fields
-            showMessageDialog(map, "You can't fire upon your own fleet!", "Not allowed",
+            showMessageDialog(map, "You can't fire upon your own fleet!", "That would be treason",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             if (SwingUtilities.isLeftMouseButton(event)) {

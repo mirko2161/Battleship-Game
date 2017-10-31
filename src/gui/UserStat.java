@@ -20,6 +20,7 @@ public class UserStat extends Statistics {
         panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(60, 60));
         fontSize = 20;
+        getNameLabel().setText("Enemy stat: "); // myb switch them
         add(panel, BorderLayout.SOUTH);
         this.addButtons();
     }
