@@ -220,6 +220,7 @@ public class MainFrame extends JFrame {
         ((EnemyStat) enemyStat).showEnemyStats();
         enemyStat.setStatLabelText("Number of enemy ships remaining:");
         userStat.setStatLabelText("Number of your ships remaining:");
+        ((UserStat) userStat).resetNumOfShips();
 
         userMap.setShipsPlaced(true);
         enemyMap.setShipsPlaced(true);

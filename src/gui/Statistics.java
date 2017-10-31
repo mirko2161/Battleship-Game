@@ -28,7 +28,7 @@ public class Statistics extends JPanel {
 
         // 1. panel
         JPanel titlePanel = new JPanel(); // if just label not centered
-        statLabel = new JLabel("Number of ships remaining to place:");
+        statLabel = new JLabel("Number of ships remaining to deploy:");
         Font font = statLabel.getFont().deriveFont(26f);
         statLabel.setFont(statLabel.getFont().deriveFont(21f));
         titlePanel.add(statLabel);
@@ -119,6 +119,26 @@ public class Statistics extends JPanel {
 
     public void setStatLabelText(String newText) {
         this.statLabel.setText(newText);
+    }
+
+    public JLabel getCarrierLabel() {
+        return carrierLabel;
+    }
+
+    public JLabel getBattleshipLabel() {
+        return battleshipLabel;
+    }
+
+    public JLabel getCruiserLabel() {
+        return cruiserLabel;
+    }
+
+    public JLabel getSubmarineLabel() {
+        return submarineLabel;
+    }
+
+    public JLabel getDestroyerLabel() {
+        return destroyerLabel;
     }
 
 }

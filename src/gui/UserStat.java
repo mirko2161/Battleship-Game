@@ -88,6 +88,14 @@ public class UserStat extends Statistics {
         panel.add(randomFire, BorderLayout.SOUTH);
     }
 
+    public void resetNumOfShips() {
+        ((ShipLabel) getCarrierLabel()).setNumOfShipsRemaining(1);
+        ((ShipLabel) getBattleshipLabel()).setNumOfShipsRemaining(2);
+        ((ShipLabel) getCruiserLabel()).setNumOfShipsRemaining(3);
+        ((ShipLabel) getSubmarineLabel()).setNumOfShipsRemaining(4);
+        ((ShipLabel) getDestroyerLabel()).setNumOfShipsRemaining(5);
+    }
+
     public void addStatisticsListener(StatisticsListener listener) {
         this.statisticsListener = listener;
     }
