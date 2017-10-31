@@ -10,12 +10,16 @@ import javax.swing.JPanel;
 
 public class Statistics extends JPanel {
 
-    private JLabel statLabel;
+    private final JLabel statLabel;
     private final JLabel carrierLabel;
     private final JLabel battleshipLabel;
     private final JLabel cruiserLabel;
     private final JLabel submarineLabel;
     private final JLabel destroyerLabel;
+    private final JLabel hitMissLabel;
+    private final JLabel accuracyLabel;
+    private int hits;
+    private int misses;
 
     private BattlefieldMap accompanyingMap;
 
@@ -67,8 +71,8 @@ public class Statistics extends JPanel {
         // 3. panel
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.LINE_AXIS));
-        JLabel hitMissLabel = new JLabel("Hits/Misses: " + "0/0"); // TODO: implement
-        JLabel accuracyLabel = new JLabel("Accuracy: " + "0%");
+        hitMissLabel = new JLabel("Hits/Misses: " + "0/0");
+        accuracyLabel = new JLabel("Accuracy: " + "0%");
 
         Font newFont = hitMissLabel.getFont().deriveFont(14f);
         hitMissLabel.setFont(newFont);
@@ -107,6 +111,24 @@ public class Statistics extends JPanel {
                 ((ShipLabel) destroyerLabel).shipLost();
                 break;
         }
+    }
+
+    public void markHit() {
+        hits++;
+        updateStatLabels();
+    }
+
+    public void markMiss() {
+        misses++;
+        updateStatLabels();
+    }
+
+    private void updateStatLabels() {
+        hitMissLabel.setText("Hits/Misses: " + hits + "/" + misses);
+        int total = hits + misses;
+        int accuracy = (int) ((double) hits / total * 100.0);
+        System.out.println("accuracy is " + accuracy);
+        accuracyLabel.setText("Accuracy: " + accuracy + "%");
     }
 
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {

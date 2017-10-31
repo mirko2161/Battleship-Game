@@ -202,7 +202,7 @@ public class BattlefieldMap extends JPanel {
 
         if (unluckyBastard.isWithShip()) {
             unluckyBastard.setBackground(Color.RED);
-
+            accompanyingStat.markHit();
             if (checkIfAllShipsAreDead()) {
                 main.endTheGame(this);
                 return; // prevents the dead fleet from firing back
@@ -216,6 +216,7 @@ public class BattlefieldMap extends JPanel {
                     : "Enemy missed us!";
             main.updateNotificationLabel(newLabel);
             unluckyBastard.setBackground(Color.GRAY);
+            accompanyingStat.markMiss();
         }
         if (nameOfMap.equals("enemy")) { // if player fired, return fire, but after delay
             int delayInMilliseconds = 1500;
