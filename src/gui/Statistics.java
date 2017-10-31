@@ -127,7 +127,6 @@ public class Statistics extends JPanel {
         hitMissLabel.setText("Hits/Misses: " + hits + "/" + misses);
         int total = hits + misses;
         int accuracy = (int) ((double) hits / total * 100.0);
-        System.out.println("accuracy is " + accuracy);
         accuracyLabel.setText("Accuracy: " + accuracy + "%");
     }
 

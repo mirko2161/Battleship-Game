@@ -78,6 +78,9 @@ public class MainFrame extends JFrame {
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (userMap != null && userMap.isShipsPlaced()) {
+                    saveBeforeExit();
+                }
                 getContentPane().removeAll();
                 GridLayout layout = new GridLayout(2, 2);
                 setLayout(layout);
