@@ -20,7 +20,7 @@ public class UserStat extends Statistics {
         panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(60, 60));
         fontSize = 20;
-        super.add(panel, BorderLayout.SOUTH);
+        add(panel, BorderLayout.SOUTH);
         this.addButtons();
     }
 

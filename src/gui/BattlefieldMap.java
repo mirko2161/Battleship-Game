@@ -38,7 +38,6 @@ public class BattlefieldMap extends JPanel {
         this.nameOfMap = name;
         this.gridFields = new Field[numOfRows][numOfColumns];
         this.lengthOfShips = new int[]{5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2};
-//        this.lengthOfShips = new int[]{5, 4, 3, 3}; // for quicker test
         this.savedStateOfMap = new boolean[numOfRows][numOfColumns];
         this.potencialStateOfMap = savedStateOfMap;
         this.listOfShips = new ArrayList<>(lengthOfShips.length);
@@ -142,10 +141,11 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void nextShip() {
+        String nameOfCurrentShip = listOfShipNames[currentShip];
         if (savedStateOfMap != potencialStateOfMap) { // prevents advancing without placing a ship
-            ((MainFrame) mainFrame).updateNotificationLabel(listOfShipNames[currentShip]
-                    + " deployed.");
+            ((MainFrame) mainFrame).updateNotificationLabel(nameOfCurrentShip + " deployed.");
             saveShipPosition();
+            accompanyingStat.updateShipLabels(nameOfCurrentShip); // decrease num of ships to place
 
             if (currentShip == lengthOfShips.length - 1) { // last ship placement confirmed
                 ((MainFrame) mainFrame).beginGame();
@@ -155,8 +155,8 @@ public class BattlefieldMap extends JPanel {
             currentShip++;
             savedStateOfMap = potencialStateOfMap; // potential map becomes saved
         } else {
-            ((MainFrame) mainFrame).updateNotificationLabel("Must place "
-                    + listOfShipNames[currentShip] + " to continue!");
+            ((MainFrame) mainFrame).updateNotificationLabel("Must place " + nameOfCurrentShip
+                    + " to continue!");
         }
     }
 
