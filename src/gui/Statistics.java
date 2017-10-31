@@ -1,7 +1,10 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -13,42 +16,81 @@ public class Statistics extends JPanel {
     private final JLabel cruiserLabel;
     private final JLabel submarineLabel;
     private final JLabel destroyerLabel;
+    private final JLabel hitMissLabel;
+    private final JLabel accuracyLabel;
+    private int hits;
+    private int misses;
 
     private BattlefieldMap accompanyingMap;
 
-    public Statistics() { // TODO: add better alignment, better look and position
-        GridLayout experimentLayout = new GridLayout(7, 1);
-        setLayout(experimentLayout);
+    public Statistics() {
         // TODO: add behaviour for num of ships remaining to place, then swich to num of alive ships
+        this.setLayout(new BorderLayout()); // contains textAndStatsPanel and user buttons/notifications
 
-        statLabel = new JLabel("Number of ships remaining:");
+        JPanel textAndStatsPanel = new JPanel(); // contains titlePanel, shipsPanel, and statsPanel
+        textAndStatsPanel.setLayout(new BoxLayout(textAndStatsPanel, BoxLayout.PAGE_AXIS));
+
+        // 1. panel
+        JPanel titlePanel = new JPanel(); // if just label not centered
+        statLabel = new JLabel("Number of ships remaining to deploy:");
+        Font font = statLabel.getFont().deriveFont(26f);
+        statLabel.setFont(statLabel.getFont().deriveFont(21f));
+        titlePanel.add(statLabel);
+        titlePanel.setMaximumSize(titlePanel.getPreferredSize()); // after adding components
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+        // 2. panel
+        JPanel shipsPanel = new JPanel();
+        shipsPanel.setLayout(new BoxLayout(shipsPanel, BoxLayout.LINE_AXIS));
+
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.PAGE_AXIS));
+
         carrierLabel = new ShipLabel(1, " x Carrier");
         battleshipLabel = new ShipLabel(2, " x Battleship");
         cruiserLabel = new ShipLabel(3, " x Cruiser");
         submarineLabel = new ShipLabel(4, " x Submarine");
         destroyerLabel = new ShipLabel(5, " x Destroyer");
 
-        statLabel.setHorizontalAlignment(JLabel.CENTER);
-        carrierLabel.setHorizontalAlignment(JLabel.CENTER);
-        battleshipLabel.setHorizontalAlignment(JLabel.CENTER);
-        cruiserLabel.setHorizontalAlignment(JLabel.CENTER);
-        submarineLabel.setHorizontalAlignment(JLabel.CENTER);
-        destroyerLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        Font font = statLabel.getFont().deriveFont(14f);
-        statLabel.setFont(font);
         carrierLabel.setFont(font);
         battleshipLabel.setFont(font);
         cruiserLabel.setFont(font);
         submarineLabel.setFont(font);
         destroyerLabel.setFont(font);
 
-        add(statLabel);
-        add(carrierLabel);
-        add(battleshipLabel);
-        add(cruiserLabel);
-        add(submarineLabel);
-        add(destroyerLabel);
+        textPanel.add(carrierLabel);
+        textPanel.add(battleshipLabel);
+        textPanel.add(cruiserLabel);
+        textPanel.add(submarineLabel);
+        textPanel.add(destroyerLabel);
+
+        shipsPanel.add(Box.createHorizontalGlue());
+        shipsPanel.add(textPanel);
+        shipsPanel.add(Box.createHorizontalGlue());
+
+        // 3. panel
+        JPanel statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.LINE_AXIS));
+        hitMissLabel = new JLabel("Hits/Misses: " + "0/0");
+        accuracyLabel = new JLabel("Accuracy: " + "0%");
+
+        Font newFont = hitMissLabel.getFont().deriveFont(14f);
+        hitMissLabel.setFont(newFont);
+        accuracyLabel.setFont(newFont);
+        hitMissLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+        accuracyLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+
+        statsPanel.add(hitMissLabel);
+        statsPanel.add(accuracyLabel);
+
+        // adding
+        textAndStatsPanel.add(titlePanel);
+        textAndStatsPanel.add(shipsPanel);
+        textAndStatsPanel.add(Box.createVerticalGlue());
+        textAndStatsPanel.add(statsPanel);
+
+        textAndStatsPanel.setPreferredSize(textAndStatsPanel.getMaximumSize());
+        add(textAndStatsPanel, BorderLayout.CENTER);
     }
 
     public void updateShipLabels(String shipName) {
@@ -71,12 +113,54 @@ public class Statistics extends JPanel {
         }
     }
 
+    public void markHit() {
+        hits++;
+        updateStatLabels();
+    }
+
+    public void markMiss() {
+        misses++;
+        updateStatLabels();
+    }
+
+    private void updateStatLabels() {
+        hitMissLabel.setText("Hits/Misses: " + hits + "/" + misses);
+        int total = hits + misses;
+        int accuracy = (int) ((double) hits / total * 100.0);
+        System.out.println("accuracy is " + accuracy);
+        accuracyLabel.setText("Accuracy: " + accuracy + "%");
+    }
+
     public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
         this.accompanyingMap = accompanyingMap;
     }
 
     public BattlefieldMap getAccompanyingMap() {
         return accompanyingMap;
+    }
+
+    public void setStatLabelText(String newText) {
+        this.statLabel.setText(newText);
+    }
+
+    public JLabel getCarrierLabel() {
+        return carrierLabel;
+    }
+
+    public JLabel getBattleshipLabel() {
+        return battleshipLabel;
+    }
+
+    public JLabel getCruiserLabel() {
+        return cruiserLabel;
+    }
+
+    public JLabel getSubmarineLabel() {
+        return submarineLabel;
+    }
+
+    public JLabel getDestroyerLabel() {
+        return destroyerLabel;
     }
 
 }

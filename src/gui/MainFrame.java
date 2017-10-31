@@ -35,7 +35,8 @@ public class MainFrame extends JFrame {
         startText = new JLabel("  Battleship  ");
         add(startText, BorderLayout.CENTER);
 
-        setSize(850, 800);
+        int width = 850, height = 740;
+        setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         setVisible(true);
@@ -192,17 +193,13 @@ public class MainFrame extends JFrame {
         userStat.setAccompanyingMap(userMap);
         userMap.setAccompanyingStat(userStat);
 
-        ((EnemyStat) enemyStat).addNotificationLabel();
-        UserStat userSt = ((UserStat) userStat);
-        userSt.addButtons();
-
-        userSt.addStatisticsListener(new StatisticsListener() {
+        ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
                 beginGame();
             }
         });
-        userSt.addFireListener(new FireListener() {
+        ((UserStat) userStat).addFireListener(new FireListener() {
             @Override
             public void randomFire(String mapName) {
                 returnFire(mapName);
@@ -220,6 +217,10 @@ public class MainFrame extends JFrame {
         enemyMap.randomPlacementOfShips();
         ((UserStat) userStat).removeButtons();
         ((UserStat) userStat).addRandomFireButton();
+        ((EnemyStat) enemyStat).showEnemyStats();
+        enemyStat.setStatLabelText("Number of enemy ships remaining:");
+        userStat.setStatLabelText("Number of your ships remaining:");
+        ((UserStat) userStat).resetNumOfShips();
 
         userMap.setShipsPlaced(true);
         enemyMap.setShipsPlaced(true);

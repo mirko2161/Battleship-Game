@@ -14,11 +14,14 @@ public class ShipLabel extends JLabel {
     }
 
     public void shipLost() {
-        if (numOfShipsRemaining > 0) {
-            setText(--numOfShipsRemaining + name);
-            revalidate();
-            repaint();
-        }
+        setText(--numOfShipsRemaining + name);
+        revalidate();
+        repaint();
+    }
+
+    public void setNumOfShipsRemaining(int numOfShipsRemaining) {
+        this.numOfShipsRemaining = numOfShipsRemaining;
+        setText(numOfShipsRemaining + name);
     }
 
 }
