@@ -35,7 +35,8 @@ public class MainFrame extends JFrame {
         startText = new JLabel("  Battleship  ");
         add(startText, BorderLayout.CENTER);
 
-        setSize(850, 800);
+        int width = 850, height = 740;
+        setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         setVisible(true);
