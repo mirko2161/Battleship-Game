@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class Statistics extends JPanel {
 
-    private final JLabel statLabel;
+    private JLabel statLabel;
     private final JLabel carrierLabel;
     private final JLabel battleshipLabel;
     private final JLabel cruiserLabel;
@@ -115,6 +115,10 @@ public class Statistics extends JPanel {
 
     public BattlefieldMap getAccompanyingMap() {
         return accompanyingMap;
+    }
+
+    public void setStatLabelText(String newText) {
+        this.statLabel.setText(newText);
     }
 
 }

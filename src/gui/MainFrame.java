@@ -218,6 +218,8 @@ public class MainFrame extends JFrame {
         ((UserStat) userStat).removeButtons();
         ((UserStat) userStat).addRandomFireButton();
         ((EnemyStat) enemyStat).showEnemyStats();
+        enemyStat.setStatLabelText("Number of enemy ships remaining:");
+        userStat.setStatLabelText("Number of your ships remaining:");
 
         userMap.setShipsPlaced(true);
         enemyMap.setShipsPlaced(true);

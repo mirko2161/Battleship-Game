@@ -85,7 +85,7 @@ public class UserStat extends Statistics {
             }
         });
         randomFire.setMnemonic(KeyEvent.VK_R);
-        panel.add(randomFire, BorderLayout.WEST);
+        panel.add(randomFire, BorderLayout.SOUTH);
     }
 
     public void addStatisticsListener(StatisticsListener listener) {
