@@ -11,6 +11,7 @@ public class EnemyStat extends Statistics {
     private JLabel notificationLabel;
 
     public EnemyStat() {
+        super.getComponent(0).setVisible(false);
         addNotificationLabel();
     }
 
@@ -33,6 +34,10 @@ public class EnemyStat extends Statistics {
 
     public void updateNotificationLabel(String newLabel) {
         notificationLabel.setText(newLabel);
+    }
+
+    public void showEnemyStats() {
+        super.getComponent(0).setVisible(true);
     }
 
 }
