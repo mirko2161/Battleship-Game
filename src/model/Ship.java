@@ -20,6 +20,18 @@ public class Ship implements Serializable {
         this.coordinates = coordinates;
     }
 
+    public void saveShipPosition(BattlefieldMap map) {
+        for (int row = 0; row < map.getSavedStateOfMap().length; row++) {
+            for (int column = 0; column < map.getSavedStateOfMap()[row].length; column++) {
+                // diff between two states is new ship position
+                if (map.getSavedStateOfMap()[row][column] != map.getPotencialStateOfMap()[row][column]) {
+                    coordinates.add(row);
+                    coordinates.add(column);
+                }
+            }
+        }
+    }
+
     public boolean checkIfShipIsDestroyed(BattlefieldMap map) {
         for (int i = 0; i < coordinates.size(); i += 2) {
             int row = coordinates.get(i);
@@ -46,11 +58,6 @@ public class Ship implements Serializable {
 
     public int getLength() {
         return length;
-    }
-
-    public void setCoordinates(int row, int column) {
-        coordinates.add(row);
-        coordinates.add(column);
     }
 
 }

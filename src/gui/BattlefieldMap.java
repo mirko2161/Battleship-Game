@@ -147,9 +147,10 @@ public class BattlefieldMap extends JPanel {
 
     public void nextShip() {
         String nameOfCurrentShip = listOfShips.get(currentShip).getName();
+
         if (savedStateOfMap != potencialStateOfMap) { // prevents advancing without placing a ship
             ((MainFrame) mainFrame).updateNotificationLabel(nameOfCurrentShip + " deployed.");
-            saveShipPosition();
+            listOfShips.get(currentShip).saveShipPosition(this);
             accompanyingStat.updateShipLabels(nameOfCurrentShip); // decrease num of ships to place
 
             if (currentShip == listOfShips.size() - 1) { // last ship placement confirmed
@@ -157,6 +158,7 @@ public class BattlefieldMap extends JPanel {
             } else if (currentShip == listOfShips.size() - 2) { // next to last ship
                 ((UserStat) accompanyingStat).renameButton("Deploy ships");
             }
+
             currentShip++;
             savedStateOfMap = potencialStateOfMap; // potential map becomes saved
         } else {
@@ -165,34 +167,24 @@ public class BattlefieldMap extends JPanel {
         }
     }
 
-    private void saveShipPosition() { // TODO: move to Ship..?
-        for (int row = 0; row < savedStateOfMap.length; row++) {
-            for (int column = 0; column < savedStateOfMap[row].length; column++) {
-                // diff between two states is new ship position
-                if (savedStateOfMap[row][column] != potencialStateOfMap[row][column]) {
-                    listOfShips.get(currentShip).setCoordinates(row, column);
-                }
-            }
-        }
-    }
-
     public void randomPlacementOfShips() {
-        for (currentShip = 0; currentShip < listOfShips.size(); currentShip++) {
+        for (int i = 0; i < listOfShips.size(); i++) {
             int row = (int) (Math.random() * gridFields.length);
             int column = (int) (Math.random() * gridFields[0].length);
             boolean isHorizontal = Math.random() < 0.5;
 
             boolean placed;
+            Ship ship = listOfShips.get(i);
             if (isHorizontal) {
-                placed = putShipOnMapHorizontally(listOfShips.get(currentShip).getLength(), row, column);
+                placed = putShipOnMapHorizontally(ship.getLength(), row, column);
             } else {
-                placed = putShipOnMapVertically(listOfShips.get(currentShip).getLength(), row, column);
+                placed = putShipOnMapVertically(ship.getLength(), row, column);
             }
             if (placed) {
-                saveShipPosition();
+                ship.saveShipPosition(this);
                 savedStateOfMap = potencialStateOfMap;
             } else { // if ship placement failed - try again
-                currentShip--;
+                i--;
             }
         }
     }
