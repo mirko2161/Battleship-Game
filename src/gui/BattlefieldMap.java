@@ -16,17 +16,15 @@ import utils.MapSaverAndLoader;
 
 public class BattlefieldMap extends JPanel {
 
-    private JFrame mainFrame;
+    private final String nameOfMap;
     private final Field[][] gridFields;
     private boolean[][] savedStateOfMap; // each field, does it contain a ship or not
     private boolean[][] potencialStateOfMap;
     private int currentShip;
-    private final int[] lengthOfShips;
-    private boolean shipsPlaced;
-    private final String nameOfMap;
+    private boolean shipsPlaced; // can the game begin
     private List<Ship> listOfShips;
-    private final String[] listOfShipNames;
 
+    private JFrame mainFrame;
     private Statistics accompanyingStat;
     private final MapSaverAndLoader saveOrLoad;
 
@@ -37,14 +35,16 @@ public class BattlefieldMap extends JPanel {
 
         this.nameOfMap = name;
         this.gridFields = new Field[numOfRows][numOfColumns];
-        this.lengthOfShips = new int[]{5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2};
         this.savedStateOfMap = new boolean[numOfRows][numOfColumns];
         this.potencialStateOfMap = savedStateOfMap;
-        this.listOfShips = new ArrayList<>(lengthOfShips.length);
-        this.listOfShipNames = new String[]{"Carrier", "Battleship", "Battleship", "Cruiser",
+        this.listOfShips = new ArrayList<>();
+
+        this.saveOrLoad = new MapSaverAndLoader(this);
+
+        String[] listOfShipNames = new String[]{"Carrier", "Battleship", "Battleship", "Cruiser",
             "Cruiser", "Cruiser", "Submarine", "Submarine", "Submarine", "Submarine",
             "Destroyer", "Destroyer", "Destroyer", "Destroyer", "Destroyer"};
-        this.saveOrLoad = new MapSaverAndLoader(this);
+        int[] lengthOfShips = new int[]{5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2};
 
         FieldAdapter fieldAdapter = new FieldAdapter(this);
         for (int row = 0; row < numOfRows; row++) {
@@ -67,14 +67,14 @@ public class BattlefieldMap extends JPanel {
         resetMapToPreviousState(); // prevents same ship being placed multiple times
         boolean placed;
         if (isHorizontal) {
-            placed = putShipOnMapHorizontally(lengthOfShips[currentShip], row, column);
+            placed = putShipOnMapHorizontally(listOfShips.get(currentShip).getLength(), row, column);
         } else {
-            placed = putShipOnMapVertically(lengthOfShips[currentShip], row, column);
+            placed = putShipOnMapVertically(listOfShips.get(currentShip).getLength(), row, column);
         }
 
         String newLabel;
         if (placed) {
-            newLabel = listOfShipNames[currentShip] + " placed.";
+            newLabel = listOfShips.get(currentShip).getName() + " placed.";
         } else {
             newLabel = "Cannot place ship there.";
             resetMapToPreviousState();
@@ -146,15 +146,15 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void nextShip() {
-        String nameOfCurrentShip = listOfShipNames[currentShip];
+        String nameOfCurrentShip = listOfShips.get(currentShip).getName();
         if (savedStateOfMap != potencialStateOfMap) { // prevents advancing without placing a ship
             ((MainFrame) mainFrame).updateNotificationLabel(nameOfCurrentShip + " deployed.");
             saveShipPosition();
             accompanyingStat.updateShipLabels(nameOfCurrentShip); // decrease num of ships to place
 
-            if (currentShip == lengthOfShips.length - 1) { // last ship placement confirmed
+            if (currentShip == listOfShips.size() - 1) { // last ship placement confirmed
                 ((MainFrame) mainFrame).beginGame();
-            } else if (currentShip == lengthOfShips.length - 2) { // next to last ship
+            } else if (currentShip == listOfShips.size() - 2) { // next to last ship
                 ((UserStat) accompanyingStat).renameButton("Deploy ships");
             }
             currentShip++;
@@ -177,16 +177,16 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void randomPlacementOfShips() {
-        for (currentShip = 0; currentShip < lengthOfShips.length; currentShip++) {
+        for (currentShip = 0; currentShip < listOfShips.size(); currentShip++) {
             int row = (int) (Math.random() * gridFields.length);
             int column = (int) (Math.random() * gridFields[0].length);
             boolean isHorizontal = Math.random() < 0.5;
 
             boolean placed;
             if (isHorizontal) {
-                placed = putShipOnMapHorizontally(lengthOfShips[currentShip], row, column);
+                placed = putShipOnMapHorizontally(listOfShips.get(currentShip).getLength(), row, column);
             } else {
-                placed = putShipOnMapVertically(lengthOfShips[currentShip], row, column);
+                placed = putShipOnMapVertically(listOfShips.get(currentShip).getLength(), row, column);
             }
             if (placed) {
                 saveShipPosition();
