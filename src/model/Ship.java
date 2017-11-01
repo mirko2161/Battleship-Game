@@ -1,6 +1,7 @@
 package model;
 
 import gui.BattlefieldMap;
+import gui.Field;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,22 +10,32 @@ public class Ship implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Integer> coordinates;
-    private boolean alive; // are all the field of the ship unhit
     private final String name;
+    private boolean alive; // are all the field of the ship unhit
+    private final int length;
+    private final List<Field> coordinates;
 
-    public Ship(List<Integer> coordinates, boolean alive, String name) {
-        this.coordinates = coordinates;
-        this.alive = alive;
+    public Ship(String name, int length) {
         this.name = name;
+        this.alive = true; // always alive at construction
+        this.length = length;
+        this.coordinates = new ArrayList<>();
     }
 
-    public boolean checkIfShipIsDestroyed(BattlefieldMap map) {
-        ArrayList<Integer> shipCoordinates = (ArrayList<Integer>) this.coordinates;
-        for (int i = 0; i < shipCoordinates.size(); i += 2) {
-            int row = shipCoordinates.get(i);
-            int column = shipCoordinates.get(i + 1);
-            if (!map.getGridFields()[row][column].isHit()) {
+    public void saveShipPosition(BattlefieldMap map) {
+        for (int row = 0; row < map.getSavedStateOfMap().length; row++) {
+            for (int column = 0; column < map.getSavedStateOfMap()[row].length; column++) {
+                // diff between two states is new ship position
+                if (map.getSavedStateOfMap()[row][column] != map.getPotencialStateOfMap()[row][column]) {
+                    coordinates.add(map.getGridFields()[row][column]);
+                }
+            }
+        }
+    }
+
+    public boolean checkIfShipIsDestroyed() {
+        for (Field field : coordinates) {
+            if (!field.isHit()) {
                 return false; // as soon as there's an unhit field
             }
         }
@@ -32,21 +43,20 @@ public class Ship implements Serializable {
         return true;
     }
 
-    public boolean isAlive() {
-        return alive;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setCoordinates(int row, int column) {
-        coordinates.add(row);
-        coordinates.add(column);
+    public boolean isAlive() {
+        return alive;
     }
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public int getLength() {
+        return length;
     }
 
 }
