@@ -2,28 +2,28 @@ package model;
 
 import gui.BattlefieldMap;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Ship implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Integer> coordinates;
-    private boolean alive; // are all the field of the ship unhit
     private final String name;
+    private boolean alive; // are all the field of the ship unhit
+    private final int length;
+    private final List<Integer> coordinates;
 
-    public Ship(List<Integer> coordinates, boolean alive, String name) {
-        this.coordinates = coordinates;
-        this.alive = alive;
+    public Ship(List<Integer> coordinates, String name, int length) {
         this.name = name;
+        this.alive = true; // always alive at construction
+        this.length = length;
+        this.coordinates = coordinates;
     }
 
     public boolean checkIfShipIsDestroyed(BattlefieldMap map) {
-        ArrayList<Integer> shipCoordinates = (ArrayList<Integer>) this.coordinates;
-        for (int i = 0; i < shipCoordinates.size(); i += 2) {
-            int row = shipCoordinates.get(i);
-            int column = shipCoordinates.get(i + 1);
+        for (int i = 0; i < coordinates.size(); i += 2) {
+            int row = coordinates.get(i);
+            int column = coordinates.get(i + 1);
             if (!map.getGridFields()[row][column].isHit()) {
                 return false; // as soon as there's an unhit field
             }
@@ -32,21 +32,25 @@ public class Ship implements Serializable {
         return true;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean isAlive() {
         return alive;
     }
 
-    public String getName() {
-        return name;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setCoordinates(int row, int column) {
         coordinates.add(row);
         coordinates.add(column);
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
 }

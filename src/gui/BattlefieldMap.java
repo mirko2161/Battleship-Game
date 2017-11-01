@@ -56,6 +56,10 @@ public class BattlefieldMap extends JPanel {
                 add(field);
             }
         }
+        for (int i = 0; i < listOfShipNames.length; i++) {
+            Ship ship = new Ship(new ArrayList<>(10), listOfShipNames[i], lengthOfShips[i]);
+            listOfShips.add(ship);
+        }
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
@@ -162,14 +166,11 @@ public class BattlefieldMap extends JPanel {
     }
 
     private void saveShipPosition() { // TODO: move to Ship..?
-        Ship ship = new Ship(new ArrayList<>(10), true, listOfShipNames[currentShip]);
-        listOfShips.add(ship);
-
         for (int row = 0; row < savedStateOfMap.length; row++) {
             for (int column = 0; column < savedStateOfMap[row].length; column++) {
                 // diff between two states is new ship position
                 if (savedStateOfMap[row][column] != potencialStateOfMap[row][column]) {
-                    ship.setCoordinates(row, column);
+                    listOfShips.get(currentShip).setCoordinates(row, column);
                 }
             }
         }
