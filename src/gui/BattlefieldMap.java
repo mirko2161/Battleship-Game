@@ -57,7 +57,7 @@ public class BattlefieldMap extends JPanel {
             }
         }
         for (int i = 0; i < listOfShipNames.length; i++) {
-            Ship ship = new Ship(new ArrayList<>(10), listOfShipNames[i], lengthOfShips[i]);
+            Ship ship = new Ship(listOfShipNames[i], lengthOfShips[i]);
             listOfShips.add(ship);
         }
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -197,6 +197,7 @@ public class BattlefieldMap extends JPanel {
         if (unluckyBastard.isWithShip()) {
             unluckyBastard.setBackground(Color.RED);
             accompanyingStat.markHit();
+
             if (checkIfAllShipsAreDead()) {
                 main.endTheGame(this);
                 return; // prevents the dead fleet from firing back
@@ -241,7 +242,7 @@ public class BattlefieldMap extends JPanel {
         boolean allShipsDead = true;
         for (Ship ship : listOfShips) {
             if (ship.isAlive()) { // skip dead ships
-                if (ship.checkIfShipIsDestroyed(this)) {
+                if (ship.checkIfShipIsDestroyed()) {
                     ((MainFrame) mainFrame).updateNotificationLabel(ship.getName() + " destroyed!");
                     accompanyingStat.updateShipLabels(ship.getName());
                 } else {

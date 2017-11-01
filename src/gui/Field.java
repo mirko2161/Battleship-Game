@@ -7,8 +7,8 @@ public class Field extends JButton {
 
     private boolean containsShip;
     private boolean isHit;
-    private final int row;
-    private final int column;
+    private int row;
+    private int column;
 
     public Field(int row, int column) {
         this.row = row;
@@ -25,6 +25,14 @@ public class Field extends JButton {
 
     public int getRow() {
         return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     public int getColumn() {

@@ -1,7 +1,9 @@
 package model;
 
 import gui.BattlefieldMap;
+import gui.Field;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ship implements Serializable {
@@ -11,13 +13,13 @@ public class Ship implements Serializable {
     private final String name;
     private boolean alive; // are all the field of the ship unhit
     private final int length;
-    private final List<Integer> coordinates;
+    private final List<Field> coordinates;
 
-    public Ship(List<Integer> coordinates, String name, int length) {
+    public Ship(String name, int length) {
         this.name = name;
         this.alive = true; // always alive at construction
         this.length = length;
-        this.coordinates = coordinates;
+        this.coordinates = new ArrayList<>();
     }
 
     public void saveShipPosition(BattlefieldMap map) {
@@ -25,18 +27,15 @@ public class Ship implements Serializable {
             for (int column = 0; column < map.getSavedStateOfMap()[row].length; column++) {
                 // diff between two states is new ship position
                 if (map.getSavedStateOfMap()[row][column] != map.getPotencialStateOfMap()[row][column]) {
-                    coordinates.add(row);
-                    coordinates.add(column);
+                    coordinates.add(map.getGridFields()[row][column]);
                 }
             }
         }
     }
 
-    public boolean checkIfShipIsDestroyed(BattlefieldMap map) {
-        for (int i = 0; i < coordinates.size(); i += 2) {
-            int row = coordinates.get(i);
-            int column = coordinates.get(i + 1);
-            if (!map.getGridFields()[row][column].isHit()) {
+    public boolean checkIfShipIsDestroyed() {
+        for (Field field : coordinates) {
+            if (!field.isHit()) {
                 return false; // as soon as there's an unhit field
             }
         }
