@@ -204,8 +204,8 @@ public class MainFrame extends JFrame {
         });
         ((UserStat) userStat).addFireListener(new FireListener() {
             @Override
-            public void randomFire(String mapName) {
-                returnFire(mapName);
+            public void randomFire() {
+                enemyMap.randomFire();
             }
         });
         add(enemyMap);
@@ -237,18 +237,9 @@ public class MainFrame extends JFrame {
         ((EnemyStat) enemyStat).updateNotificationLabel(newLabel);
     }
 
-    public void returnFire(String mapName) {
-        BattlefieldMap map = mapName.equals("user") ? getEnemyMap() : getUserMap(); // need oposite
-        int row, column, numOfRows = 10, numOfColumns = 10;
-        boolean alreadyHit;
+    public void returnFire() {
         // TODO: add some logic to fire patterns, like if hit, next time target adjacent fields
-        do { // if AI firing, use random coordinates
-            row = (int) (Math.random() * numOfRows);
-            column = (int) (Math.random() * numOfColumns);
-            alreadyHit = map.getGridFields()[row][column].isHit();
-        } while (alreadyHit);
-
-        map.fire(row, column);
+        userMap.randomFire();
     }
 
     public void endTheGame(BattlefieldMap map) {

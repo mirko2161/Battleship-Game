@@ -82,7 +82,7 @@ public class UserStat extends Statistics {
         randomFire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fireListener.randomFire("user");
+                fireListener.randomFire();
             }
         });
         randomFire.setMnemonic(KeyEvent.VK_R);

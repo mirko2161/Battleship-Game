@@ -224,12 +224,24 @@ public class BattlefieldMap extends JPanel {
             Timer timer = new Timer(delayInMilliseconds, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    main.returnFire("enemy");
+                    main.returnFire();
                 }
             });
             timer.setRepeats(false);
             timer.start();
         }
+    }
+
+    public void randomFire() {
+        int row, column, numOfRows = gridFields.length, numOfColumns = gridFields[0].length;
+        boolean alreadyHit;
+        do { // choose random coordinates, but only if they weren't previously hit
+            row = (int) (Math.random() * numOfRows);
+            column = (int) (Math.random() * numOfColumns);
+            alreadyHit = gridFields[row][column].isHit();
+        } while (alreadyHit);
+
+        fire(row, column);
     }
 
     private boolean checkIfAllShipsAreDead() {
