@@ -140,12 +140,22 @@ public class InfoDisplay extends JPanel {
     public void saveInfo(ObjectOutputStream os) throws IOException {
         os.writeObject(hits);
         os.writeObject(misses);
+        os.writeObject(((ShipLabel) carrierLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) battleshipLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) cruiserLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) submarineLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) destroyerLabel).getNumOfShipsRemaining());
     }
 
     public void loadInfo(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         hits = (int) ois.readObject();
         misses = (int) ois.readObject();
         updateStatLabels();
+        ((ShipLabel) carrierLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) battleshipLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) cruiserLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) submarineLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) destroyerLabel).setNumOfShipsRemaining((int) ois.readObject());
     }
 
     public void setInfoLabelText(String newText) {
