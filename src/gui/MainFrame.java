@@ -22,8 +22,8 @@ public class MainFrame extends JFrame {
 
     private JMenuBar menuBar;
     private BattlefieldMap enemyMap;
-    private Statistics enemyStat;
-    private Statistics userStat;
+    private InfoDisplay enemyInfo;
+    private InfoDisplay userInfo;
     private BattlefieldMap userMap;
     private final JLabel startText;
 
@@ -184,33 +184,33 @@ public class MainFrame extends JFrame {
 
     public void addPanels() {
         enemyMap = new BattlefieldMap("enemy");
-        enemyStat = new EnemyStat();
-        userStat = new UserStat();
+        enemyInfo = new EnemyInfoDisplay();
+        userInfo = new UserInfoDisplay();
         userMap = new BattlefieldMap("user");
 
         enemyMap.setMainFrame(this);
         userMap.setMainFrame(this);
 
-        enemyStat.setAccompanyingMap(enemyMap);
-        enemyMap.setAccompanyingStat(enemyStat);
-        userStat.setAccompanyingMap(userMap);
-        userMap.setAccompanyingStat(userStat);
+        enemyInfo.setAccompanyingMap(enemyMap);
+        enemyMap.setAccompanyingInfo(enemyInfo);
+        userInfo.setAccompanyingMap(userMap);
+        userMap.setAccompanyingInfo(userInfo);
 
-        ((UserStat) userStat).addStatisticsListener(new StatisticsListener() {
+        ((UserInfoDisplay) userInfo).addStatisticsListener(new StatisticsListener() {
             @Override
             public void startGame() {
                 beginGame();
             }
         });
-        ((UserStat) userStat).addFireListener(new FireListener() {
+        ((UserInfoDisplay) userInfo).addFireListener(new FireListener() {
             @Override
             public void randomFire() {
                 enemyMap.randomFire();
             }
         });
         add(enemyMap);
-        add(enemyStat);
-        add(userStat);
+        add(enemyInfo);
+        add(userInfo);
         add(userMap);
 
         setVisible(true);
@@ -218,12 +218,12 @@ public class MainFrame extends JFrame {
 
     public void beginGame() {
         enemyMap.randomPlacementOfShips();
-        ((UserStat) userStat).removeButtons();
-        ((UserStat) userStat).addRandomFireButton();
-        ((EnemyStat) enemyStat).showEnemyStats();
-        enemyStat.setStatLabelText("Number of enemy ships remaining:");
-        userStat.setStatLabelText("Number of your ships remaining:");
-        ((UserStat) userStat).resetNumOfShips();
+        ((UserInfoDisplay) userInfo).removeButtons();
+        ((UserInfoDisplay) userInfo).addRandomFireButton();
+        ((EnemyInfoDisplay) enemyInfo).showEnemyStats();
+        enemyInfo.setStatLabelText("Number of enemy ships remaining:");
+        userInfo.setStatLabelText("Number of your ships remaining:");
+        ((UserInfoDisplay) userInfo).resetNumOfShips();
 
         userMap.setShipsPlaced(true);
         enemyMap.setShipsPlaced(true);
@@ -234,7 +234,7 @@ public class MainFrame extends JFrame {
     }
 
     public void updateNotificationLabel(String newLabel) {
-        ((EnemyStat) enemyStat).updateNotificationLabel(newLabel);
+        ((EnemyInfoDisplay) enemyInfo).updateNotificationLabel(newLabel);
     }
 
     public void returnFire() {
@@ -282,19 +282,19 @@ public class MainFrame extends JFrame {
     private void removeButtonActions() {
         userMap.removeButtonActions();
         enemyMap.removeButtonActions();
-        ((UserStat) userStat).removeButtons();
+        ((UserInfoDisplay) userInfo).removeButtons();
     }
 
     public BattlefieldMap getEnemyMap() {
         return enemyMap;
     }
 
-    public Statistics getEnemyStat() {
-        return enemyStat;
+    public InfoDisplay getEnemyInfo() {
+        return enemyInfo;
     }
 
-    public Statistics getUserStat() {
-        return userStat;
+    public InfoDisplay getUserInfo() {
+        return userInfo;
     }
 
     public BattlefieldMap getUserMap() {
@@ -305,12 +305,12 @@ public class MainFrame extends JFrame {
         this.enemyMap = enemyMap;
     }
 
-    public void setEnemyStat(Statistics enemyStat) {
-        this.enemyStat = enemyStat;
+    public void setEnemyInfo(InfoDisplay enemyInfo) {
+        this.enemyInfo = enemyInfo;
     }
 
-    public void setUserStat(Statistics userStat) {
-        this.userStat = userStat;
+    public void setUserInfo(InfoDisplay userInfo) {
+        this.userInfo = userInfo;
     }
 
     public void setUserMap(BattlefieldMap userMap) {

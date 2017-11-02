@@ -25,7 +25,7 @@ public class BattlefieldMap extends JPanel {
     private List<Ship> listOfShips;
 
     private JFrame mainFrame;
-    private Statistics accompanyingStat;
+    private InfoDisplay accompanyingInfo;
     private final MapSaverAndLoader saveOrLoad;
 
     public BattlefieldMap(String name) {
@@ -151,12 +151,12 @@ public class BattlefieldMap extends JPanel {
         if (savedStateOfMap != potencialStateOfMap) { // prevents advancing without placing a ship
             ((MainFrame) mainFrame).updateNotificationLabel(nameOfCurrentShip + " deployed.");
             listOfShips.get(currentShip).saveShipPosition(this);
-            accompanyingStat.updateShipLabels(nameOfCurrentShip); // decrease num of ships to place
+            accompanyingInfo.updateShipLabels(nameOfCurrentShip); // decrease num of ships to place
 
             if (currentShip == listOfShips.size() - 1) { // last ship placement confirmed
                 ((MainFrame) mainFrame).beginGame();
             } else if (currentShip == listOfShips.size() - 2) { // next to last ship
-                ((UserStat) accompanyingStat).renameButton("Deploy ships");
+                ((UserInfoDisplay) accompanyingInfo).renameButton("Deploy ships");
             }
 
             currentShip++;
@@ -196,7 +196,7 @@ public class BattlefieldMap extends JPanel {
 
         if (unluckyBastard.isWithShip()) {
             unluckyBastard.setBackground(Color.RED);
-            accompanyingStat.markHit();
+            accompanyingInfo.markHit();
 
             if (checkIfAllShipsAreDead()) {
                 main.endTheGame(this);
@@ -211,7 +211,7 @@ public class BattlefieldMap extends JPanel {
                     : "Enemy missed us!";
             main.updateNotificationLabel(newLabel);
             unluckyBastard.setBackground(Color.GRAY);
-            accompanyingStat.markMiss();
+            accompanyingInfo.markMiss();
         }
         if (nameOfMap.equals("enemy")) { // if player fired, return fire, but after delay
             int delayInMilliseconds = 1500;
@@ -244,7 +244,7 @@ public class BattlefieldMap extends JPanel {
             if (ship.isAlive()) { // skip dead ships
                 if (ship.checkIfShipIsDestroyed()) {
                     ((MainFrame) mainFrame).updateNotificationLabel(ship.getName() + " destroyed!");
-                    accompanyingStat.updateShipLabels(ship.getName());
+                    accompanyingInfo.updateShipLabels(ship.getName());
                 } else {
                     allShipsDead = false; // first alive ship; cont checking to update labels
                 }
@@ -265,8 +265,8 @@ public class BattlefieldMap extends JPanel {
         this.mainFrame = mainFrame;
     }
 
-    public void setAccompanyingStat(Statistics userStat) {
-        this.accompanyingStat = userStat;
+    public void setAccompanyingInfo(InfoDisplay userStat) {
+        this.accompanyingInfo = userStat;
     }
 
     public boolean isShipsPlaced() {

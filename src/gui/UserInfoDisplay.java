@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class UserStat extends Statistics {
+public class UserInfoDisplay extends InfoDisplay {
 
     private final JPanel panel;
     private JButton nextShip;
@@ -16,7 +16,7 @@ public class UserStat extends Statistics {
     private FireListener fireListener;
     private final float fontSize;
 
-    public UserStat() {
+    public UserInfoDisplay() {
         panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(60, 60));
         fontSize = 20;

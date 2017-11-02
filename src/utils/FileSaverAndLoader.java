@@ -1,7 +1,7 @@
 package utils;
 
 import gui.MainFrame;
-import gui.UserStat;
+import gui.UserInfoDisplay;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,7 +38,7 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
             GridLayout layout = new GridLayout(2, 2);
             mainFrame.setLayout(layout);
             mainFrame.addPanels();
-            ((UserStat) mainFrame.getUserStat()).removeButtons();
+            ((UserInfoDisplay) mainFrame.getUserInfo()).removeButtons();
 
             mainFrame.getEnemyMap().setShipsPlaced(true);
             mainFrame.getUserMap().setShipsPlaced(true);

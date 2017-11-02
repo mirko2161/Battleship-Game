@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Statistics extends JPanel {
+public class InfoDisplay extends JPanel {
 
     private final JLabel statLabel;
     private final JLabel carrierLabel;
@@ -24,7 +24,7 @@ public class Statistics extends JPanel {
 
     private BattlefieldMap accompanyingMap;
 
-    public Statistics() {
+    public InfoDisplay() {
         this.setLayout(new BorderLayout()); // contains textAndStatsPanel and user buttons/notifications
 
         JPanel textAndStatsPanel = new JPanel(); // contains titlePanel, shipsPanel, and statsPanel

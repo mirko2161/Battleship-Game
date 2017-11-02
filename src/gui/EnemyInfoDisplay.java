@@ -6,11 +6,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class EnemyStat extends Statistics {
+public class EnemyInfoDisplay extends InfoDisplay {
 
     private JLabel notificationLabel;
 
-    public EnemyStat() {
+    public EnemyInfoDisplay() {
         getNameLabel().setText("User stat: ");
         getComponent(0).setVisible(false);
         addNotificationLabel();
