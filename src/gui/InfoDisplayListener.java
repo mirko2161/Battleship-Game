@@ -1,6 +1,6 @@
 package gui;
 
-public interface StatisticsListener {
+public interface InfoDisplayListener {
 
     public void startGame();
 

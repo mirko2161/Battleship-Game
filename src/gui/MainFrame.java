@@ -196,7 +196,7 @@ public class MainFrame extends JFrame {
         enemyInfo.setAccompanyingMap(enemyMap);
         userInfo.setAccompanyingMap(userMap);
 
-        ((UserInfoDisplay) userInfo).addStatisticsListener(new StatisticsListener() {
+        ((UserInfoDisplay) userInfo).addInfoDisplayListener(new InfoDisplayListener() {
             @Override
             public void startGame() {
                 beginGame();

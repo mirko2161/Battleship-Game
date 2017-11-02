@@ -12,7 +12,7 @@ public class UserInfoDisplay extends InfoDisplay {
 
     private final JPanel panel;
     private JButton nextShip;
-    private StatisticsListener statisticsListener;
+    private InfoDisplayListener infoDisplayListener;
     private FireListener fireListener;
     private final float fontSize;
 
@@ -38,7 +38,7 @@ public class UserInfoDisplay extends InfoDisplay {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getAccompanyingMap().randomPlacementOfShips();
-                statisticsListener.startGame();
+                infoDisplayListener.startGame();
             }
         });
         panel.add(randomPlacement, BorderLayout.WEST);
@@ -97,8 +97,8 @@ public class UserInfoDisplay extends InfoDisplay {
         ((ShipLabel) getDestroyerLabel()).setNumOfShipsRemaining(5);
     }
 
-    public void addStatisticsListener(StatisticsListener listener) {
-        this.statisticsListener = listener;
+    public void addInfoDisplayListener(InfoDisplayListener listener) {
+        this.infoDisplayListener = listener;
     }
 
     public void addFireListener(FireListener listener) {
