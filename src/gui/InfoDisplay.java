@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -11,11 +14,11 @@ import javax.swing.JPanel;
 public class InfoDisplay extends JPanel {
 
     private final JLabel infoLabel;
-    private final JLabel carrierLabel;
-    private final JLabel battleshipLabel;
-    private final JLabel cruiserLabel;
-    private final JLabel submarineLabel;
-    private final JLabel destroyerLabel;
+    private JLabel carrierLabel;
+    private JLabel battleshipLabel;
+    private JLabel cruiserLabel;
+    private JLabel submarineLabel;
+    private JLabel destroyerLabel;
     private final JLabel nameLabel;
     private final JLabel hitMissLabel;
     private final JLabel accuracyLabel;
@@ -132,6 +135,27 @@ public class InfoDisplay extends JPanel {
         int total = hits + misses;
         int accuracy = (int) ((double) hits / total * 100.0);
         accuracyLabel.setText("Accuracy: " + accuracy + "%");
+    }
+
+    public void saveInfo(ObjectOutputStream os) throws IOException {
+        os.writeObject(hits);
+        os.writeObject(misses);
+        os.writeObject(((ShipLabel) carrierLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) battleshipLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) cruiserLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) submarineLabel).getNumOfShipsRemaining());
+        os.writeObject(((ShipLabel) destroyerLabel).getNumOfShipsRemaining());
+    }
+
+    public void loadInfo(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        hits = (int) ois.readObject();
+        misses = (int) ois.readObject();
+        updateStatLabels();
+        ((ShipLabel) carrierLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) battleshipLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) cruiserLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) submarineLabel).setNumOfShipsRemaining((int) ois.readObject());
+        ((ShipLabel) destroyerLabel).setNumOfShipsRemaining((int) ois.readObject());
     }
 
     public void setInfoLabelText(String newText) {

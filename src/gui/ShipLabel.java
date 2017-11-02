@@ -19,6 +19,10 @@ public class ShipLabel extends JLabel {
         repaint();
     }
 
+    public int getNumOfShipsRemaining() {
+        return numOfShipsRemaining;
+    }
+
     public void setNumOfShipsRemaining(int numOfShipsRemaining) {
         this.numOfShipsRemaining = numOfShipsRemaining;
         setText(numOfShipsRemaining + name);

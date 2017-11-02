@@ -81,9 +81,6 @@ public class MainFrame extends JFrame {
                 if (userMap != null && userMap.isShipsPlaced()) {
                     saveBeforeExit();
                 }
-                getContentPane().removeAll();
-                GridLayout layout = new GridLayout(2, 2);
-                setLayout(layout);
                 addPanels();
                 showMessageDialog(MainFrame.this, "Click on a field to place a "
                         + "ship horizontaly, right click to place verticaly",
@@ -183,6 +180,10 @@ public class MainFrame extends JFrame {
     }
 
     public void addPanels() {
+        getContentPane().removeAll(); // in case game was already in progress
+        GridLayout layout = new GridLayout(2, 2);
+        setLayout(layout);
+
         enemyMap = new BattlefieldMap("enemy");
         userMap = new BattlefieldMap("user");
         enemyInfo = new EnemyInfoDisplay();
@@ -230,8 +231,6 @@ public class MainFrame extends JFrame {
         userMap.setShipsPlaced(true);
 
         updateNotificationLabel("Pick a target to fire upon.");
-        showMessageDialog(this, "Choose an enemy field to fire upon!", "Battle is joined!",
-                JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void updateNotificationLabel(String newLabel) {
