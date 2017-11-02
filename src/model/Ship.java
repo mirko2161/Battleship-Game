@@ -11,7 +11,7 @@ public class Ship implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final String name;
-    private boolean alive; // are all the field of the ship unhit
+    private boolean alive; // are all the fields of the ship unhit
     private final int length;
     private final List<Field> coordinates;
 

@@ -1,9 +1,6 @@
 package utils;
 
-import gui.EnemyInfoDisplay;
 import gui.MainFrame;
-import gui.UserInfoDisplay;
-import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,21 +35,8 @@ public class FileSaverAndLoader { // TODO: limit file save/load to .save files
     public void loadFromFile() throws IOException, ClassNotFoundException {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(mainFrame) == JFileChooser.APPROVE_OPTION) {
-
-            mainFrame.getContentPane().removeAll(); // could call New Game, but need to move instruction window first
-            GridLayout layout = new GridLayout(2, 2);
-            mainFrame.setLayout(layout);
             mainFrame.addPanels();
-
-            ((EnemyInfoDisplay) mainFrame.getEnemyInfo()).showEnemyInfo();
-            ((UserInfoDisplay) mainFrame.getUserInfo()).removeButtons();
-            ((UserInfoDisplay) mainFrame.getUserInfo()).addRandomFireButton();
-
-            mainFrame.getEnemyInfo().setInfoLabelText("Number of enemy ships remaining:");
-            mainFrame.getUserInfo().setInfoLabelText("Number of your ships remaining:");
-
-            mainFrame.getEnemyMap().setShipsPlaced(true);
-            mainFrame.getUserMap().setShipsPlaced(true);
+            mainFrame.beginGame();
 
             File file = fileChooser.getSelectedFile();
             FileInputStream fis = new FileInputStream(file);
