@@ -22,9 +22,9 @@ public class MainFrame extends JFrame {
 
     private JMenuBar menuBar;
     private BattlefieldMap enemyMap;
+    private BattlefieldMap userMap;
     private InfoDisplay enemyInfo;
     private InfoDisplay userInfo;
-    private BattlefieldMap userMap;
     private final JLabel startText;
 
     public MainFrame(String title) throws HeadlessException {
@@ -184,17 +184,17 @@ public class MainFrame extends JFrame {
 
     public void addPanels() {
         enemyMap = new BattlefieldMap("enemy");
+        userMap = new BattlefieldMap("user");
         enemyInfo = new EnemyInfoDisplay();
         userInfo = new UserInfoDisplay();
-        userMap = new BattlefieldMap("user");
 
         enemyMap.setMainFrame(this);
         userMap.setMainFrame(this);
 
-        enemyInfo.setAccompanyingMap(enemyMap);
         enemyMap.setAccompanyingInfo(enemyInfo);
-        userInfo.setAccompanyingMap(userMap);
         userMap.setAccompanyingInfo(userInfo);
+        enemyInfo.setAccompanyingMap(enemyMap);
+        userInfo.setAccompanyingMap(userMap);
 
         ((UserInfoDisplay) userInfo).addStatisticsListener(new StatisticsListener() {
             @Override
@@ -208,7 +208,7 @@ public class MainFrame extends JFrame {
                 enemyMap.randomFire();
             }
         });
-        add(enemyMap);
+        add(enemyMap); // must be added in this order
         add(enemyInfo);
         add(userInfo);
         add(userMap);
@@ -218,15 +218,16 @@ public class MainFrame extends JFrame {
 
     public void beginGame() {
         enemyMap.randomPlacementOfShips();
+        ((EnemyInfoDisplay) enemyInfo).showEnemyStats();
         ((UserInfoDisplay) userInfo).removeButtons();
         ((UserInfoDisplay) userInfo).addRandomFireButton();
-        ((EnemyInfoDisplay) enemyInfo).showEnemyStats();
+
         enemyInfo.setStatLabelText("Number of enemy ships remaining:");
         userInfo.setStatLabelText("Number of your ships remaining:");
         ((UserInfoDisplay) userInfo).resetNumOfShips();
 
-        userMap.setShipsPlaced(true);
         enemyMap.setShipsPlaced(true);
+        userMap.setShipsPlaced(true);
 
         updateNotificationLabel("Pick a target to fire upon.");
         showMessageDialog(this, "Choose an enemy field to fire upon!", "Battle is joined!",
@@ -280,8 +281,8 @@ public class MainFrame extends JFrame {
     }
 
     private void removeButtonActions() {
-        userMap.removeButtonActions();
         enemyMap.removeButtonActions();
+        userMap.removeButtonActions();
         ((UserInfoDisplay) userInfo).removeButtons();
     }
 
@@ -289,32 +290,12 @@ public class MainFrame extends JFrame {
         return enemyMap;
     }
 
-    public InfoDisplay getEnemyInfo() {
-        return enemyInfo;
-    }
-
-    public InfoDisplay getUserInfo() {
-        return userInfo;
-    }
-
     public BattlefieldMap getUserMap() {
         return userMap;
     }
 
-    public void setEnemyMap(BattlefieldMap enemyMap) {
-        this.enemyMap = enemyMap;
-    }
-
-    public void setEnemyInfo(InfoDisplay enemyInfo) {
-        this.enemyInfo = enemyInfo;
-    }
-
-    public void setUserInfo(InfoDisplay userInfo) {
-        this.userInfo = userInfo;
-    }
-
-    public void setUserMap(BattlefieldMap userMap) {
-        this.userMap = userMap;
+    public InfoDisplay getUserInfo() {
+        return userInfo;
     }
 
 }

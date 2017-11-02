@@ -261,24 +261,8 @@ public class BattlefieldMap extends JPanel {
         }
     }
 
-    public void setMainFrame(JFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-
-    public void setAccompanyingInfo(InfoDisplay userStat) {
-        this.accompanyingInfo = userStat;
-    }
-
-    public boolean isShipsPlaced() {
-        return shipsPlaced;
-    }
-
     public String getNameOfMap() {
         return nameOfMap;
-    }
-
-    public void setShipsPlaced(boolean shipsPlaced) {
-        this.shipsPlaced = shipsPlaced;
     }
 
     public Field[][] getGridFields() {
@@ -301,8 +285,20 @@ public class BattlefieldMap extends JPanel {
         this.potencialStateOfMap = potencialStateOfMap;
     }
 
-    public MapSaverAndLoader getSaveOrLoad() {
-        return saveOrLoad;
+    public void setMainFrame(JFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
+    public void setAccompanyingInfo(InfoDisplay userStat) {
+        this.accompanyingInfo = userStat;
+    }
+
+    public boolean isShipsPlaced() {
+        return shipsPlaced;
+    }
+
+    public void setShipsPlaced(boolean shipsPlaced) {
+        this.shipsPlaced = shipsPlaced;
     }
 
     public List<Ship> getListOfShips() {
@@ -311,6 +307,10 @@ public class BattlefieldMap extends JPanel {
 
     public void setListOfShips(List<Ship> listOfShips) {
         this.listOfShips = listOfShips;
+    }
+
+    public MapSaverAndLoader getSaveOrLoad() {
+        return saveOrLoad;
     }
 
 }
