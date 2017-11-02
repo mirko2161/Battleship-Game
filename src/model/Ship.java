@@ -59,4 +59,8 @@ public class Ship implements Serializable {
         return length;
     }
 
+    public List<Field> getCoordinates() {
+        return coordinates;
+    }
+
 }
