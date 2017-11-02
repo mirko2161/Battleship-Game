@@ -15,12 +15,26 @@ public class Field extends JButton {
         this.column = column;
     }
 
+    public void removeAllMouseListeners() {
+        for (MouseListener listener : getMouseListeners()) {
+            removeMouseListener(listener);
+        }
+    }
+
     public boolean isWithShip() {
         return containsShip;
     }
 
     public void setContainsShip(boolean containsShip) {
         this.containsShip = containsShip;
+    }
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setIsHit(boolean isHit) {
+        this.isHit = isHit;
     }
 
     public int getRow() {
@@ -37,20 +51,6 @@ public class Field extends JButton {
 
     public int getColumn() {
         return column;
-    }
-
-    public boolean isHit() {
-        return isHit;
-    }
-
-    public void setIsHit(boolean isHit) {
-        this.isHit = isHit;
-    }
-
-    public void removeAllMouseListeners() {
-        for (MouseListener listener : getMouseListeners()) {
-            removeMouseListener(listener);
-        }
     }
 
 }

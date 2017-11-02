@@ -37,7 +37,7 @@ public class EnemyInfoDisplay extends InfoDisplay {
         notificationLabel.setText(newLabel);
     }
 
-    public void showEnemyStats() {
+    public void showEnemyInfo() {
         getComponent(0).setVisible(true);
     }
 

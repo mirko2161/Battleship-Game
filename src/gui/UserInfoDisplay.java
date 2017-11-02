@@ -97,18 +97,18 @@ public class UserInfoDisplay extends InfoDisplay {
         ((ShipLabel) getDestroyerLabel()).setNumOfShipsRemaining(5);
     }
 
+    public void removeButtons() {
+        panel.removeAll();
+        revalidate();
+        repaint();
+    }
+
     public void addInfoDisplayListener(InfoDisplayListener listener) {
         this.infoDisplayListener = listener;
     }
 
     public void addFireListener(FireListener listener) {
         this.fireListener = listener;
-    }
-
-    public void removeButtons() {
-        panel.removeAll();
-        revalidate();
-        repaint();
     }
 
 }

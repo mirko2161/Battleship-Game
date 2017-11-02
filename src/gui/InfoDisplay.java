@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class InfoDisplay extends JPanel {
 
-    private final JLabel statLabel;
+    private final JLabel infoLabel;
     private final JLabel carrierLabel;
     private final JLabel battleshipLabel;
     private final JLabel cruiserLabel;
@@ -32,10 +32,10 @@ public class InfoDisplay extends JPanel {
 
         // 1. panel
         JPanel titlePanel = new JPanel(); // if just label not centered
-        statLabel = new JLabel("Number of ships remaining to deploy:");
-        Font font = statLabel.getFont().deriveFont(26f);
-        statLabel.setFont(statLabel.getFont().deriveFont(21f));
-        titlePanel.add(statLabel);
+        infoLabel = new JLabel("Number of ships remaining to deploy:");
+        Font font = infoLabel.getFont().deriveFont(26f);
+        infoLabel.setFont(infoLabel.getFont().deriveFont(21f));
+        titlePanel.add(infoLabel);
         titlePanel.setMaximumSize(titlePanel.getPreferredSize()); // after adding components
         titlePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
@@ -134,20 +134,8 @@ public class InfoDisplay extends JPanel {
         accuracyLabel.setText("Accuracy: " + accuracy + "%");
     }
 
-    public JLabel getNameLabel() {
-        return nameLabel;
-    }
-
-    public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
-        this.accompanyingMap = accompanyingMap;
-    }
-
-    public BattlefieldMap getAccompanyingMap() {
-        return accompanyingMap;
-    }
-
-    public void setStatLabelText(String newText) {
-        this.statLabel.setText(newText);
+    public void setInfoLabelText(String newText) {
+        this.infoLabel.setText(newText);
     }
 
     public JLabel getCarrierLabel() {
@@ -168,6 +156,18 @@ public class InfoDisplay extends JPanel {
 
     public JLabel getDestroyerLabel() {
         return destroyerLabel;
+    }
+
+    public JLabel getNameLabel() {
+        return nameLabel;
+    }
+
+    public BattlefieldMap getAccompanyingMap() {
+        return accompanyingMap;
+    }
+
+    public void setAccompanyingMap(BattlefieldMap accompanyingMap) {
+        this.accompanyingMap = accompanyingMap;
     }
 
 }

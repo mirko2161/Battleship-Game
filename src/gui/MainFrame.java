@@ -218,12 +218,12 @@ public class MainFrame extends JFrame {
 
     public void beginGame() {
         enemyMap.randomPlacementOfShips();
-        ((EnemyInfoDisplay) enemyInfo).showEnemyStats();
+        ((EnemyInfoDisplay) enemyInfo).showEnemyInfo();
         ((UserInfoDisplay) userInfo).removeButtons();
         ((UserInfoDisplay) userInfo).addRandomFireButton();
 
-        enemyInfo.setStatLabelText("Number of enemy ships remaining:");
-        userInfo.setStatLabelText("Number of your ships remaining:");
+        enemyInfo.setInfoLabelText("Number of enemy ships remaining:");
+        userInfo.setInfoLabelText("Number of your ships remaining:");
         ((UserInfoDisplay) userInfo).resetNumOfShips();
 
         enemyMap.setShipsPlaced(true);
@@ -292,6 +292,10 @@ public class MainFrame extends JFrame {
 
     public BattlefieldMap getUserMap() {
         return userMap;
+    }
+
+    public InfoDisplay getEnemyInfo() {
+        return enemyInfo;
     }
 
     public InfoDisplay getUserInfo() {
