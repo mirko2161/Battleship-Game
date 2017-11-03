@@ -3,7 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -27,7 +26,7 @@ public class MainFrame extends JFrame {
     private InfoDisplay userInfo;
     private final JLabel startText;
 
-    public MainFrame(String title) throws HeadlessException {
+    public MainFrame(String title) {
         super(title);
 
         setJMenuBar(createMenuBar());
@@ -225,7 +224,7 @@ public class MainFrame extends JFrame {
 
         enemyInfo.setInfoLabelText("Number of enemy ships remaining:");
         userInfo.setInfoLabelText("Number of your ships remaining:");
-        ((UserInfoDisplay) userInfo).resetNumOfShips();
+        userInfo.setShipLabels(null);
 
         enemyMap.setShipsPlaced(true);
         userMap.setShipsPlaced(true);

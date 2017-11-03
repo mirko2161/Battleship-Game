@@ -151,7 +151,7 @@ public class BattlefieldMap extends JPanel {
         if (savedStateOfMap != potencialStateOfMap) { // prevents advancing without placing a ship
             ((MainFrame) mainFrame).updateNotificationLabel(nameOfCurrentShip + " deployed.");
             listOfShips.get(currentShip).saveShipPosition(this);
-            accompanyingInfo.updateShipLabels(nameOfCurrentShip); // decrease num of ships to place
+            accompanyingInfo.updateShipLabel(nameOfCurrentShip); // decrease num of ships to place
 
             if (currentShip == listOfShips.size() - 1) { // last ship placement confirmed
                 ((MainFrame) mainFrame).beginGame();
@@ -244,7 +244,7 @@ public class BattlefieldMap extends JPanel {
             if (ship.isAlive()) { // skip dead ships
                 if (ship.checkIfShipIsDestroyed()) {
                     ((MainFrame) mainFrame).updateNotificationLabel(ship.getName() + " destroyed!");
-                    accompanyingInfo.updateShipLabels(ship.getName());
+                    accompanyingInfo.updateShipLabel(ship.getName());
                 } else {
                     allShipsDead = false; // first alive ship; cont checking to update labels
                 }

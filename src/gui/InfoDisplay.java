@@ -10,24 +10,26 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import model.StatInfo;
 
 public class InfoDisplay extends JPanel {
 
     private final JLabel infoLabel;
-    private JLabel carrierLabel;
-    private JLabel battleshipLabel;
-    private JLabel cruiserLabel;
-    private JLabel submarineLabel;
-    private JLabel destroyerLabel;
+    private final JLabel carrierLabel;
+    private final JLabel battleshipLabel;
+    private final JLabel cruiserLabel;
+    private final JLabel submarineLabel;
+    private final JLabel destroyerLabel;
     private final JLabel nameLabel;
     private final JLabel hitMissLabel;
     private final JLabel accuracyLabel;
-    private int hits;
-    private int misses;
 
+    private StatInfo statInfo;
     private BattlefieldMap accompanyingMap;
 
     public InfoDisplay() {
+        statInfo = new StatInfo(new int[]{1, 2, 3, 4, 5});
+
         this.setLayout(new BorderLayout()); // contains textAndStatsPanel and user buttons/notifications
 
         JPanel textAndStatsPanel = new JPanel(); // contains titlePanel, shipsPanel, and statsPanel
@@ -49,11 +51,12 @@ public class InfoDisplay extends JPanel {
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.PAGE_AXIS));
 
-        carrierLabel = new ShipLabel(1, " x Carrier");
-        battleshipLabel = new ShipLabel(2, " x Battleship");
-        cruiserLabel = new ShipLabel(3, " x Cruiser");
-        submarineLabel = new ShipLabel(4, " x Submarine");
-        destroyerLabel = new ShipLabel(5, " x Destroyer");
+        carrierLabel = new JLabel();
+        battleshipLabel = new JLabel();
+        cruiserLabel = new JLabel();
+        submarineLabel = new JLabel();
+        destroyerLabel = new JLabel();
+        setShipLabels(null);
 
         carrierLabel.setFont(font);
         battleshipLabel.setFont(font);
@@ -97,40 +100,72 @@ public class InfoDisplay extends JPanel {
         textAndStatsPanel.add(statsPanel);
 
         textAndStatsPanel.setPreferredSize(textAndStatsPanel.getMaximumSize());
-        add(textAndStatsPanel, BorderLayout.CENTER);
+        this.add(textAndStatsPanel, BorderLayout.CENTER);
     }
 
-    public void updateShipLabels(String shipName) {
+    /**
+     * Sets the ship labels to the state before load, or to a default state.
+     *
+     * @param numOfShips the previous state to reset to, or null to reset to default values
+     */
+    public void setShipLabels(int[] numOfShips) {
+        if (numOfShips == null) {
+            numOfShips = new int[]{1, 2, 3, 4, 5}; // default values
+            statInfo.setNumOfShipsRemaining(numOfShips);
+        }
+        carrierLabel.setText(numOfShips[0] + " x Carrier");
+        battleshipLabel.setText(numOfShips[1] + " x Battleship");
+        cruiserLabel.setText(numOfShips[2] + " x Cruiser");
+        submarineLabel.setText(numOfShips[3] + " x Submarine");
+        destroyerLabel.setText(numOfShips[4] + " x Destroyer");
+    }
+
+    /**
+     * Updates the given ship's label and the new number of ships of that type.
+     *
+     * @param shipName ship to be updated
+     */
+    public void updateShipLabel(String shipName) {
+        int index = 0, numOfShips = 0;
+        JLabel shipLabeltoUpdate = null;
         switch (shipName) {
             case "Carrier":
-                ((ShipLabel) carrierLabel).shipLost();
+                index = 0;
+                shipLabeltoUpdate = carrierLabel;
                 break;
             case "Battleship":
-                ((ShipLabel) battleshipLabel).shipLost();
+                index = 1;
+                shipLabeltoUpdate = battleshipLabel;
                 break;
             case "Cruiser":
-                ((ShipLabel) cruiserLabel).shipLost();
+                index = 2;
+                shipLabeltoUpdate = cruiserLabel;
                 break;
             case "Submarine":
-                ((ShipLabel) submarineLabel).shipLost();
+                index = 3;
+                shipLabeltoUpdate = submarineLabel;
                 break;
             case "Destroyer":
-                ((ShipLabel) destroyerLabel).shipLost();
+                index = 4;
+                shipLabeltoUpdate = destroyerLabel;
                 break;
         }
+        numOfShips = statInfo.updateNumberOfShips(index);
+        shipLabeltoUpdate.setText(numOfShips + " x " + shipName);
     }
 
     public void markHit() {
-        hits++;
+        statInfo.markHit();
         updateStatLabels();
     }
 
     public void markMiss() {
-        misses++;
+        statInfo.markMiss();
         updateStatLabels();
     }
 
-    private void updateStatLabels() {
+    public void updateStatLabels() {
+        int hits = statInfo.getHits(), misses = statInfo.getMisses();
         hitMissLabel.setText("Hits/Misses: " + hits + "/" + misses);
         int total = hits + misses;
         int accuracy = (int) ((double) hits / total * 100.0);
@@ -138,24 +173,13 @@ public class InfoDisplay extends JPanel {
     }
 
     public void saveInfo(ObjectOutputStream os) throws IOException {
-        os.writeObject(hits);
-        os.writeObject(misses);
-        os.writeObject(((ShipLabel) carrierLabel).getNumOfShipsRemaining());
-        os.writeObject(((ShipLabel) battleshipLabel).getNumOfShipsRemaining());
-        os.writeObject(((ShipLabel) cruiserLabel).getNumOfShipsRemaining());
-        os.writeObject(((ShipLabel) submarineLabel).getNumOfShipsRemaining());
-        os.writeObject(((ShipLabel) destroyerLabel).getNumOfShipsRemaining());
+        os.writeObject(statInfo);
     }
 
     public void loadInfo(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        hits = (int) ois.readObject();
-        misses = (int) ois.readObject();
+        statInfo = (StatInfo) ois.readObject();
         updateStatLabels();
-        ((ShipLabel) carrierLabel).setNumOfShipsRemaining((int) ois.readObject());
-        ((ShipLabel) battleshipLabel).setNumOfShipsRemaining((int) ois.readObject());
-        ((ShipLabel) cruiserLabel).setNumOfShipsRemaining((int) ois.readObject());
-        ((ShipLabel) submarineLabel).setNumOfShipsRemaining((int) ois.readObject());
-        ((ShipLabel) destroyerLabel).setNumOfShipsRemaining((int) ois.readObject());
+        setShipLabels(statInfo.getNumOfShipsRemaining());
     }
 
     public void setInfoLabelText(String newText) {
