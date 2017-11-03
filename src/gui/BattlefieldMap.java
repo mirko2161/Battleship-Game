@@ -16,6 +16,9 @@ import utils.MapSaverAndLoader;
 
 public class BattlefieldMap extends JPanel {
 
+    private static final int ROW = 10;
+    private static final int COLUMN = 10;
+
     private final String nameOfMap;
     private final FieldGUI[][] gridFields;
     private boolean[][] savedStateOfMap; // each field, does it contain a ship or not
@@ -29,13 +32,13 @@ public class BattlefieldMap extends JPanel {
     private final MapSaverAndLoader saveOrLoad;
 
     public BattlefieldMap(String name) {
-        int numOfRows = 10, numOfColumns = 10;
-        GridLayout layout = new GridLayout(numOfRows, numOfColumns);
+//        int numOfRows = 10, numOfColumns = 10;
+        GridLayout layout = new GridLayout(ROW, COLUMN);
         setLayout(layout);
 
         this.nameOfMap = name;
-        this.gridFields = new FieldGUI[numOfRows][numOfColumns];
-        this.savedStateOfMap = new boolean[numOfRows][numOfColumns];
+        this.gridFields = new FieldGUI[ROW][COLUMN];
+        this.savedStateOfMap = new boolean[ROW][COLUMN];
         this.potencialStateOfMap = savedStateOfMap;
         this.listOfShips = new ArrayList<>();
 
@@ -47,8 +50,8 @@ public class BattlefieldMap extends JPanel {
         int[] lengthOfShips = new int[]{5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2};
 
         FieldAdapter fieldAdapter = new FieldAdapter(this);
-        for (int row = 0; row < numOfRows; row++) {
-            for (int column = 0; column < numOfColumns; column++) {
+        for (int row = 0; row < ROW; row++) {
+            for (int column = 0; column < COLUMN; column++) {
                 gridFields[row][column] = new FieldGUI(row, column);
                 FieldGUI fieldGUI = gridFields[row][column];
                 fieldGUI.addMouseListener(fieldAdapter);
@@ -83,8 +86,8 @@ public class BattlefieldMap extends JPanel {
     }
 
     private void resetMapToPreviousState() {
-        for (int row = 0; row < gridFields.length; row++) {
-            for (int column = 0; column < gridFields[row].length; column++) {
+        for (int row = 0; row < ROW; row++) {
+            for (int column = 0; column < COLUMN; column++) {
                 if (!savedStateOfMap[row][column]) { // unchanged until confir, so can be used for reset
                     gridFields[row][column].setBackground(Color.BLUE);
                     gridFields[row][column].getField().setContainsShip(false);
@@ -100,7 +103,7 @@ public class BattlefieldMap extends JPanel {
         for (int i = 0; i < savedStateOfMap.length; i++) {
             potencialStateOfMap[i] = savedStateOfMap[i].clone();
         }
-        if (lengthOfShip > gridFields[0].length - column) { // can it fit
+        if (lengthOfShip > COLUMN - column) { // can it fit
             return false;
         }
         for (int i = 0; i < lengthOfShip; i++) { // if any of the fields already contains a ship, abort
@@ -125,7 +128,7 @@ public class BattlefieldMap extends JPanel {
         for (int i = 0; i < savedStateOfMap.length; i++) {
             potencialStateOfMap[i] = savedStateOfMap[i].clone();
         }
-        if (lengthOfShip > gridFields.length - row) {
+        if (lengthOfShip > ROW - row) {
             return false;
         }
         for (int i = 0; i < lengthOfShip; i++) {
@@ -169,8 +172,8 @@ public class BattlefieldMap extends JPanel {
 
     public void randomPlacementOfShips() {
         for (int i = 0; i < listOfShips.size(); i++) {
-            int row = (int) (Math.random() * gridFields.length);
-            int column = (int) (Math.random() * gridFields[0].length);
+            int row = (int) (Math.random() * ROW);
+            int column = (int) (Math.random() * COLUMN);
             boolean isHorizontal = Math.random() < 0.5;
 
             boolean placed;
@@ -227,11 +230,11 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void randomFire() {
-        int row, column, numOfRows = gridFields.length, numOfColumns = gridFields[0].length;
+        int row, column;
         boolean alreadyHit;
         do { // choose random coordinates, but only if they weren't previously hit
-            row = (int) (Math.random() * numOfRows);
-            column = (int) (Math.random() * numOfColumns);
+            row = (int) (Math.random() * ROW);
+            column = (int) (Math.random() * COLUMN);
             alreadyHit = gridFields[row][column].getField().isHit();
         } while (alreadyHit);
 
