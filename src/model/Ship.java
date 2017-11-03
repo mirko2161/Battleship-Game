@@ -27,7 +27,7 @@ public class Ship implements Serializable {
             for (int column = 0; column < map.getSavedStateOfMap()[row].length; column++) {
                 // diff between two states is new ship position
                 if (map.getSavedStateOfMap()[row][column] != map.getPotencialStateOfMap()[row][column]) {
-                    coordinates.add(map.getGridFields()[row][column]);
+                    coordinates.add(map.getGridFields()[row][column].getField());
                 }
             }
         }

@@ -1,9 +1,10 @@
 package gui;
 
-import java.awt.event.MouseListener;
-import javax.swing.JButton;
+import java.io.Serializable;
 
-public class Field extends JButton {
+public class Field implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private boolean containsShip;
     private boolean isHit;
@@ -13,12 +14,6 @@ public class Field extends JButton {
     public Field(int row, int column) {
         this.row = row;
         this.column = column;
-    }
-
-    public void removeAllMouseListeners() {
-        for (MouseListener listener : getMouseListeners()) {
-            removeMouseListener(listener);
-        }
     }
 
     public boolean isWithShip() {

@@ -2,6 +2,7 @@ package utils;
 
 import gui.BattlefieldMap;
 import gui.Field;
+import gui.FieldGUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -26,8 +27,8 @@ public class FieldAdapter extends MouseAdapter {
     }
 
     private void playerButtonsBehaviour(MouseEvent event) {
-        int row = ((Field) event.getComponent()).getRow();
-        int column = ((Field) event.getComponent()).getColumn();
+        int row = ((FieldGUI) event.getComponent()).getField().getRow();
+        int column = ((FieldGUI) event.getComponent()).getField().getColumn();
         if (map.isShipsPlaced()) { // if game can begin, change behaviour of fields
             showMessageDialog(map, "You can't fire upon your own fleet!", "That would be treason",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -41,7 +42,7 @@ public class FieldAdapter extends MouseAdapter {
     }
 
     private void enemyButtonsBehaviour(MouseEvent event) {
-        Field field = (Field) event.getComponent();
+        Field field = ((FieldGUI) event.getComponent()).getField();
         if (map.isShipsPlaced()) {
             if (field.isHit()) {
                 showMessageDialog(map, "You can fire in the same place, your crew will laught "
