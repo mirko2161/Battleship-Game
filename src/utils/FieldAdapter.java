@@ -1,13 +1,13 @@
 package utils;
 
-import gui.BattlefieldMap;
-import gui.Field;
 import gui.FieldGUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.SwingUtilities;
+import model.BattlefieldMap;
+import model.Field;
 
 public class FieldAdapter extends MouseAdapter {
 

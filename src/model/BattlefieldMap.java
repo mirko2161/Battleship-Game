@@ -1,5 +1,10 @@
-package gui;
+package model;
 
+import gui.BattlefieldMapGUI;
+import gui.FieldGUI;
+import gui.InfoDisplay;
+import gui.MainFrame;
+import gui.UserInfoDisplay;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.Timer;
-import model.Ship;
 import utils.MapSaverAndLoader;
 
 public class BattlefieldMap {

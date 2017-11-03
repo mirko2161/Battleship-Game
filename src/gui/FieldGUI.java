@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
+import model.Field;
 
 public class FieldGUI extends JButton {
 

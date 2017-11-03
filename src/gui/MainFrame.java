@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.KeyStroke;
+import model.BattlefieldMap;
 import utils.FileSaverAndLoader;
 
 public class MainFrame extends JFrame {

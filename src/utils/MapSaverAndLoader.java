@@ -1,13 +1,13 @@
 package utils;
 
-import gui.BattlefieldMap;
-import gui.Field;
 import gui.FieldGUI;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import model.BattlefieldMap;
+import model.Field;
 import model.Ship;
 
 public class MapSaverAndLoader {

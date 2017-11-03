@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import model.BattlefieldMap;
 import utils.FieldAdapter;
 
 public class BattlefieldMapGUI extends JPanel {
