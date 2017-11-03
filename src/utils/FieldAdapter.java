@@ -30,7 +30,7 @@ public class FieldAdapter extends MouseAdapter {
         int row = ((FieldGUI) event.getComponent()).getField().getRow();
         int column = ((FieldGUI) event.getComponent()).getField().getColumn();
         if (map.isShipsPlaced()) { // if game can begin, change behaviour of fields
-            showMessageDialog(map, "You can't fire upon your own fleet!", "That would be treason",
+            showMessageDialog(map.getMapGUI(), "You can't fire upon your own fleet!", "That would be treason",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             if (SwingUtilities.isLeftMouseButton(event)) {
@@ -45,13 +45,13 @@ public class FieldAdapter extends MouseAdapter {
         Field field = ((FieldGUI) event.getComponent()).getField();
         if (map.isShipsPlaced()) {
             if (field.isHit()) {
-                showMessageDialog(map, "You can fire in the same place, your crew will laught "
+                showMessageDialog(map.getMapGUI(), "You can fire in the same place, your crew will laught "
                         + "at you...", "Not allowed", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 map.fire(field.getRow(), field.getColumn());
             }
         } else {
-            showMessageDialog(map, "You can't place the enemy ships, that would be cheating!",
+            showMessageDialog(map.getMapGUI(), "You can't place the enemy ships, that would be cheating!",
                     "Not allowed", JOptionPane.INFORMATION_MESSAGE);
         }
     }

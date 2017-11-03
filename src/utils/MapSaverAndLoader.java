@@ -22,7 +22,7 @@ public class MapSaverAndLoader {
         os.writeObject(map.getSavedStateOfMap());
         os.writeObject(map.getListOfShips());
 
-        for (FieldGUI[] gridField : map.getGridFields()) {
+        for (FieldGUI[] gridField : map.getMapGUI().getGridFields()) {
             for (FieldGUI fieldGUI : gridField) {
                 os.writeObject(fieldGUI.getField());
             }
@@ -36,7 +36,7 @@ public class MapSaverAndLoader {
 
         repaintMap();
 
-        for (FieldGUI[] gridField : map.getGridFields()) {
+        for (FieldGUI[] gridField : map.getMapGUI().getGridFields()) {
             outer:
             for (FieldGUI fieldGUI : gridField) {
                 Field field = ((Field) ois.readObject());
@@ -54,7 +54,7 @@ public class MapSaverAndLoader {
     }
 
     private void repaintMap() {
-        FieldGUI[][] fieldsGUI = map.getGridFields();
+        FieldGUI[][] fieldsGUI = map.getMapGUI().getGridFields();
         for (int row = 0; row < fieldsGUI.length; row++) {
             for (int column = 0; column < fieldsGUI[row].length; column++) {
                 if (map.getSavedStateOfMap()[row][column] && map.getNameOfMap().equals("user")) {

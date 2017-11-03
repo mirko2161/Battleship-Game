@@ -1,26 +1,21 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 import model.Ship;
-import utils.FieldAdapter;
 import utils.MapSaverAndLoader;
 
-public class BattlefieldMap extends JPanel {
+public class BattlefieldMap {
 
     private static final int ROW = 10;
     private static final int COLUMN = 10;
 
     private final String nameOfMap;
-    private final FieldGUI[][] gridFields;
     private boolean[][] savedStateOfMap; // each field, does it contain a ship or not
     private boolean[][] potencialStateOfMap;
     private int currentShip;
@@ -30,18 +25,16 @@ public class BattlefieldMap extends JPanel {
     private JFrame mainFrame;
     private InfoDisplay accompanyingInfo;
     private final MapSaverAndLoader saveOrLoad;
+    private final BattlefieldMapGUI mapGUI;
 
-    public BattlefieldMap(String name) {
-//        int numOfRows = 10, numOfColumns = 10;
-        GridLayout layout = new GridLayout(ROW, COLUMN);
-        setLayout(layout);
+    public BattlefieldMap(String name, BattlefieldMapGUI mapGUI) {
 
         this.nameOfMap = name;
-        this.gridFields = new FieldGUI[ROW][COLUMN];
         this.savedStateOfMap = new boolean[ROW][COLUMN];
         this.potencialStateOfMap = savedStateOfMap;
         this.listOfShips = new ArrayList<>();
 
+        this.mapGUI = mapGUI;
         this.saveOrLoad = new MapSaverAndLoader(this);
 
         String[] listOfShipNames = new String[]{"Carrier", "Battleship", "Battleship", "Cruiser",
@@ -49,21 +42,10 @@ public class BattlefieldMap extends JPanel {
             "Destroyer", "Destroyer", "Destroyer", "Destroyer", "Destroyer"};
         int[] lengthOfShips = new int[]{5, 4, 4, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2};
 
-        FieldAdapter fieldAdapter = new FieldAdapter(this);
-        for (int row = 0; row < ROW; row++) {
-            for (int column = 0; column < COLUMN; column++) {
-                gridFields[row][column] = new FieldGUI(row, column);
-                FieldGUI fieldGUI = gridFields[row][column];
-                fieldGUI.addMouseListener(fieldAdapter);
-                fieldGUI.setBackground(Color.BLUE);
-                this.add(fieldGUI);
-            }
-        }
         for (int i = 0; i < listOfShipNames.length; i++) {
             Ship ship = new Ship(listOfShipNames[i], lengthOfShips[i]);
             listOfShips.add(ship);
         }
-        setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     public void placeShips(int row, int column, boolean isHorizontal) {
@@ -89,8 +71,8 @@ public class BattlefieldMap extends JPanel {
         for (int row = 0; row < ROW; row++) {
             for (int column = 0; column < COLUMN; column++) {
                 if (!savedStateOfMap[row][column]) { // unchanged until confir, so can be used for reset
-                    gridFields[row][column].setBackground(Color.BLUE);
-                    gridFields[row][column].getField().setContainsShip(false);
+                    mapGUI.getGridFields()[row][column].setBackground(Color.BLUE);
+                    mapGUI.getGridFields()[row][column].getField().setContainsShip(false);
                 }
             }
         }
@@ -107,12 +89,12 @@ public class BattlefieldMap extends JPanel {
             return false;
         }
         for (int i = 0; i < lengthOfShip; i++) { // if any of the fields already contains a ship, abort
-            if (gridFields[row][column + i].getField().isWithShip()) {
+            if (mapGUI.getGridFields()[row][column + i].getField().isWithShip()) {
                 return false;
             }
         }
         for (int i = 0; i < lengthOfShip; i++) { // else put ship there
-            FieldGUI fieldGUI = gridFields[row][column + i];
+            FieldGUI fieldGUI = mapGUI.getGridFields()[row][column + i];
 
             potencialStateOfMap[row][column + i] = true;
             fieldGUI.getField().setContainsShip(true);
@@ -132,12 +114,12 @@ public class BattlefieldMap extends JPanel {
             return false;
         }
         for (int i = 0; i < lengthOfShip; i++) {
-            if (gridFields[row + i][column].getField().isWithShip()) {
+            if (mapGUI.getGridFields()[row + i][column].getField().isWithShip()) {
                 return false;
             }
         }
         for (int i = 0; i < lengthOfShip; i++) {
-            FieldGUI fieldGUI = gridFields[row + i][column];
+            FieldGUI fieldGUI = mapGUI.getGridFields()[row + i][column];
 
             potencialStateOfMap[row + i][column] = true;
             fieldGUI.getField().setContainsShip(true);
@@ -153,7 +135,7 @@ public class BattlefieldMap extends JPanel {
 
         if (savedStateOfMap != potencialStateOfMap) { // prevents advancing without placing a ship
             ((MainFrame) mainFrame).updateNotificationLabel(nameOfCurrentShip + " deployed.");
-            listOfShips.get(currentShip).saveShipPosition(this);
+            listOfShips.get(currentShip).saveShipPosition(mapGUI.getMap());
             accompanyingInfo.updateShipLabel(nameOfCurrentShip); // decrease num of ships to place
 
             if (currentShip == listOfShips.size() - 1) { // last ship placement confirmed
@@ -184,7 +166,7 @@ public class BattlefieldMap extends JPanel {
                 placed = putShipOnMapVertically(ship.getLength(), row, column);
             }
             if (placed) {
-                ship.saveShipPosition(this);
+                ship.saveShipPosition(mapGUI.getMap());
                 savedStateOfMap = potencialStateOfMap;
             } else { // if ship placement failed - try again
                 i--;
@@ -193,7 +175,7 @@ public class BattlefieldMap extends JPanel {
     }
 
     public void fire(int row, int column) {
-        FieldGUI unluckyBastard = gridFields[row][column];
+        FieldGUI unluckyBastard = mapGUI.getGridFields()[row][column];
         unluckyBastard.getField().setIsHit(true);
         MainFrame main = ((MainFrame) mainFrame);
 
@@ -235,7 +217,7 @@ public class BattlefieldMap extends JPanel {
         do { // choose random coordinates, but only if they weren't previously hit
             row = (int) (Math.random() * ROW);
             column = (int) (Math.random() * COLUMN);
-            alreadyHit = gridFields[row][column].getField().isHit();
+            alreadyHit = mapGUI.getGridFields()[row][column].getField().isHit();
         } while (alreadyHit);
 
         fire(row, column);
@@ -256,20 +238,8 @@ public class BattlefieldMap extends JPanel {
         return allShipsDead;
     }
 
-    public void removeButtonActions() {
-        for (FieldGUI[] fieldsGUI : gridFields) {
-            for (FieldGUI fieldGUI : fieldsGUI) {
-                fieldGUI.removeAllMouseListeners();
-            }
-        }
-    }
-
     public String getNameOfMap() {
         return nameOfMap;
-    }
-
-    public FieldGUI[][] getGridFields() {
-        return gridFields;
     }
 
     public boolean[][] getSavedStateOfMap() {
@@ -314,6 +284,10 @@ public class BattlefieldMap extends JPanel {
 
     public MapSaverAndLoader getSaveOrLoad() {
         return saveOrLoad;
+    }
+
+    public BattlefieldMapGUI getMapGUI() {
+        return mapGUI;
     }
 
 }
