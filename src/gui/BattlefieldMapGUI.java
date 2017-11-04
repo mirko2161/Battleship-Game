@@ -14,7 +14,7 @@ public class BattlefieldMapGUI extends JPanel {
 
     private final FieldGUI[][] gridFields;
 
-    private BattlefieldMap map;
+    private final BattlefieldMap map;
 
     public BattlefieldMapGUI(String name) {
 

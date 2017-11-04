@@ -78,9 +78,7 @@ public class MainFrame extends JFrame {
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userMap != null && userMap.getMap().isShipsPlaced()) {
-                    saveBeforeExit();
-                }
+                saveBeforeExit();
                 addPanels();
                 showMessageDialog(MainFrame.this, "Click on a field to place a "
                         + "ship horizontaly, right click to place verticaly",
@@ -112,10 +110,15 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (userMap != null && userMap.getMap().isShipsPlaced()) {
-                    showMessageDialog(null, "Our fleet is falling back! We have been bested!",
-                            "We surrendered!", JOptionPane.INFORMATION_MESSAGE);
-                    updateNotificationLabel("Defeat!");
-                    removeButtonActions(); // removes clickability
+                    int clicked = JOptionPane.showConfirmDialog(MainFrame.this, "Are you sure you want "
+                            + "to forfeit the game?", "Confirm surrender", JOptionPane.OK_CANCEL_OPTION);
+
+                    if (clicked == JOptionPane.OK_OPTION) {
+                        showMessageDialog(null, "Our fleet is falling back! We have been bested!",
+                                "We surrendered!", JOptionPane.INFORMATION_MESSAGE);
+                        updateNotificationLabel("Defeat!");
+                        removeButtonActions(); // removes clickability
+                    }
                 } else {
                     showMessageDialog(MainFrame.this, "We haven't even met the enemy!",
                             "Shameful display", JOptionPane.ERROR_MESSAGE);

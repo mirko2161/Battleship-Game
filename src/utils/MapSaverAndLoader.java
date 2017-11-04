@@ -37,7 +37,6 @@ public class MapSaverAndLoader {
         repaintMap();
 
         for (FieldGUI[] gridField : map.getMapGUI().getGridFields()) {
-            outer:
             for (FieldGUI fieldGUI : gridField) {
                 Field field = ((Field) ois.readObject());
                 fieldGUI.setField(field);

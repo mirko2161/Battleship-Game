@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JFileChooser;
 
-// TODO: seperate GUI from data so that Serialization can be MUCH easier, among other things
 public class FileSaverAndLoader { // TODO: limit file save/load to .save files
 
     private final MainFrame mainFrame;
