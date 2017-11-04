@@ -3,7 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,18 +15,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.KeyStroke;
+import model.BattlefieldMap;
 import utils.FileSaverAndLoader;
 
 public class MainFrame extends JFrame {
 
     private JMenuBar menuBar;
-    private BattlefieldMap enemyMap;
-    private BattlefieldMap userMap;
+    private BattlefieldMapGUI enemyMap;
+    private BattlefieldMapGUI userMap;
     private InfoDisplay enemyInfo;
     private InfoDisplay userInfo;
     private final JLabel startText;
 
-    public MainFrame(String title) throws HeadlessException {
+    public MainFrame(String title) {
         super(title);
 
         setJMenuBar(createMenuBar());
@@ -78,7 +78,7 @@ public class MainFrame extends JFrame {
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userMap != null && userMap.isShipsPlaced()) {
+                if (userMap != null && userMap.getMap().isShipsPlaced()) {
                     saveBeforeExit();
                 }
                 addPanels();
@@ -111,7 +111,7 @@ public class MainFrame extends JFrame {
         forfeitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userMap != null && userMap.isShipsPlaced()) {
+                if (userMap != null && userMap.getMap().isShipsPlaced()) {
                     showMessageDialog(null, "Our fleet is falling back! We have been bested!",
                             "We surrendered!", JOptionPane.INFORMATION_MESSAGE);
                     updateNotificationLabel("Defeat!");
@@ -138,7 +138,7 @@ public class MainFrame extends JFrame {
     }
 
     private void saveGame() {
-        if (userMap != null && userMap.isShipsPlaced()) { // checks that it has something to save
+        if (userMap != null && userMap.getMap().isShipsPlaced()) { // checks that it has something to save
             try {
                 new FileSaverAndLoader(this).saveToFile();
             } catch (IOException ex) {
@@ -151,7 +151,7 @@ public class MainFrame extends JFrame {
     }
 
     private void saveBeforeExit() {
-        if (userMap != null && userMap.isShipsPlaced()) {
+        if (userMap != null && userMap.getMap().isShipsPlaced()) {
             int clicked = JOptionPane.showConfirmDialog(MainFrame.this, "Do you want to save the "
                     + "game first?", "Confirm exit from current game", JOptionPane.YES_NO_OPTION);
             if (clicked == JOptionPane.OK_OPTION) {
@@ -184,18 +184,18 @@ public class MainFrame extends JFrame {
         GridLayout layout = new GridLayout(2, 2);
         setLayout(layout);
 
-        enemyMap = new BattlefieldMap("enemy");
-        userMap = new BattlefieldMap("user");
+        enemyMap = new BattlefieldMapGUI("enemy");
+        userMap = new BattlefieldMapGUI("user");
         enemyInfo = new EnemyInfoDisplay();
         userInfo = new UserInfoDisplay();
 
-        enemyMap.setMainFrame(this);
-        userMap.setMainFrame(this);
+        enemyMap.getMap().setMainFrame(this);
+        userMap.getMap().setMainFrame(this);
 
-        enemyMap.setAccompanyingInfo(enemyInfo);
-        userMap.setAccompanyingInfo(userInfo);
-        enemyInfo.setAccompanyingMap(enemyMap);
-        userInfo.setAccompanyingMap(userMap);
+        enemyMap.getMap().setAccompanyingInfo(enemyInfo);
+        userMap.getMap().setAccompanyingInfo(userInfo);
+        enemyInfo.setAccompanyingMap(enemyMap.getMap());
+        userInfo.setAccompanyingMap(userMap.getMap());
 
         ((UserInfoDisplay) userInfo).addInfoDisplayListener(new InfoDisplayListener() {
             @Override
@@ -206,7 +206,7 @@ public class MainFrame extends JFrame {
         ((UserInfoDisplay) userInfo).addFireListener(new FireListener() {
             @Override
             public void randomFire() {
-                enemyMap.randomFire();
+                enemyMap.getMap().randomFire();
             }
         });
         add(enemyMap); // must be added in this order
@@ -218,17 +218,17 @@ public class MainFrame extends JFrame {
     }
 
     public void beginGame() {
-        enemyMap.randomPlacementOfShips();
+        enemyMap.getMap().randomPlacementOfShips();
         ((EnemyInfoDisplay) enemyInfo).showEnemyInfo();
         ((UserInfoDisplay) userInfo).removeButtons();
         ((UserInfoDisplay) userInfo).addRandomFireButton();
 
         enemyInfo.setInfoLabelText("Number of enemy ships remaining:");
         userInfo.setInfoLabelText("Number of your ships remaining:");
-        ((UserInfoDisplay) userInfo).resetNumOfShips();
+        userInfo.setShipLabels(null);
 
-        enemyMap.setShipsPlaced(true);
-        userMap.setShipsPlaced(true);
+        enemyMap.getMap().setShipsPlaced(true);
+        userMap.getMap().setShipsPlaced(true);
 
         updateNotificationLabel("Pick a target to fire upon.");
     }
@@ -239,7 +239,7 @@ public class MainFrame extends JFrame {
 
     public void returnFire() {
         // TODO: add some logic to fire patterns, like if hit, next time target adjacent fields
-        userMap.randomFire();
+        userMap.getMap().randomFire();
     }
 
     public void endTheGame(BattlefieldMap map) {
@@ -286,11 +286,11 @@ public class MainFrame extends JFrame {
     }
 
     public BattlefieldMap getEnemyMap() {
-        return enemyMap;
+        return enemyMap.getMap();
     }
 
     public BattlefieldMap getUserMap() {
-        return userMap;
+        return userMap.getMap();
     }
 
     public InfoDisplay getEnemyInfo() {

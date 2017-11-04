@@ -1,12 +1,13 @@
 package utils;
 
-import gui.BattlefieldMap;
-import gui.Field;
+import gui.FieldGUI;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import model.BattlefieldMap;
+import model.Field;
 import model.Ship;
 
 public class MapSaverAndLoader {
@@ -21,62 +22,45 @@ public class MapSaverAndLoader {
         os.writeObject(map.getSavedStateOfMap());
         os.writeObject(map.getListOfShips());
 
-        for (Field[] gridField : map.getGridFields()) {
-            for (Field field : gridField) {
-                os.writeObject(field.isWithShip());
-                os.writeObject(field.isHit());
+        for (FieldGUI[] gridField : map.getMapGUI().getGridFields()) {
+            for (FieldGUI fieldGUI : gridField) {
+                os.writeObject(fieldGUI.getField());
             }
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void loadMap(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         map.setSavedStateOfMap((boolean[][]) ois.readObject());
-        @SuppressWarnings("unchecked")
-        List<Ship> list = (List<Ship>) ois.readObject();
+        map.setListOfShips((List<Ship>) ois.readObject());
 
         repaintMap();
 
-        for (Field[] gridField : map.getGridFields()) {
+        for (FieldGUI[] gridField : map.getMapGUI().getGridFields()) {
             outer:
-            for (Field field : gridField) {
-                field.setContainsShip((Boolean) ois.readObject());
-                field.setIsHit((Boolean) ois.readObject());
+            for (FieldGUI fieldGUI : gridField) {
+                Field field = ((Field) ois.readObject());
+                fieldGUI.setField(field);
 
                 if (field.isHit()) {
                     if (field.isWithShip()) {
-                        field.setBackground(Color.RED);
+                        fieldGUI.setBackground(Color.RED);
                     } else {
-                        field.setBackground(Color.GRAY);
-                    }
-                }
-
-                // TODO: remove terible hack, rework design
-                // because Ship fields are diff objects after load and won't be hit when fire is called
-                if (field.isWithShip()) {
-                    for (Ship ship : list) {
-                        // can't use for-each because can't asign to for parameter
-                        for (int i = 0; i < ship.getCoordinates().size(); i++) {
-                            if (field.getRow() == ship.getCoordinates().get(i).getRow()
-                                    && field.getColumn() == ship.getCoordinates().get(i).getColumn()) { // ughh
-                                ship.getCoordinates().set(i, field);
-                                continue outer;
-                            }
-                        }
+                        fieldGUI.setBackground(Color.GRAY);
                     }
                 }
             }
         }
-        map.setListOfShips(list);
     }
 
     private void repaintMap() {
-        Field[][] fields = map.getGridFields();
-        for (int row = 0; row < fields.length; row++) {
-            for (int column = 0; column < fields[row].length; column++) {
+        FieldGUI[][] fieldsGUI = map.getMapGUI().getGridFields();
+        for (int row = 0; row < fieldsGUI.length; row++) {
+            for (int column = 0; column < fieldsGUI[row].length; column++) {
                 if (map.getSavedStateOfMap()[row][column] && map.getNameOfMap().equals("user")) {
-                    fields[row][column].setBackground(Color.CYAN);
+                    fieldsGUI[row][column].setBackground(Color.CYAN);
                 } else {
-                    fields[row][column].setBackground(Color.BLUE);
+                    fieldsGUI[row][column].setBackground(Color.BLUE);
                 }
             }
         }

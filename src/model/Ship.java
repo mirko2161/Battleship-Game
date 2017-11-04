@@ -1,7 +1,5 @@
 package model;
 
-import gui.BattlefieldMap;
-import gui.Field;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ public class Ship implements Serializable {
             for (int column = 0; column < map.getSavedStateOfMap()[row].length; column++) {
                 // diff between two states is new ship position
                 if (map.getSavedStateOfMap()[row][column] != map.getPotencialStateOfMap()[row][column]) {
-                    coordinates.add(map.getGridFields()[row][column]);
+                    coordinates.add(map.getMapGUI().getGridFields()[row][column].getField());
                 }
             }
         }

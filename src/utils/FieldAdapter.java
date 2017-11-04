@@ -1,12 +1,13 @@
 package utils;
 
-import gui.BattlefieldMap;
-import gui.Field;
+import gui.FieldGUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.SwingUtilities;
+import model.BattlefieldMap;
+import model.Field;
 
 public class FieldAdapter extends MouseAdapter {
 
@@ -26,10 +27,10 @@ public class FieldAdapter extends MouseAdapter {
     }
 
     private void playerButtonsBehaviour(MouseEvent event) {
-        int row = ((Field) event.getComponent()).getRow();
-        int column = ((Field) event.getComponent()).getColumn();
+        int row = ((FieldGUI) event.getComponent()).getField().getRow();
+        int column = ((FieldGUI) event.getComponent()).getField().getColumn();
         if (map.isShipsPlaced()) { // if game can begin, change behaviour of fields
-            showMessageDialog(map, "You can't fire upon your own fleet!", "That would be treason",
+            showMessageDialog(map.getMapGUI(), "You can't fire upon your own fleet!", "That would be treason",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             if (SwingUtilities.isLeftMouseButton(event)) {
@@ -41,16 +42,16 @@ public class FieldAdapter extends MouseAdapter {
     }
 
     private void enemyButtonsBehaviour(MouseEvent event) {
-        Field field = (Field) event.getComponent();
+        Field field = ((FieldGUI) event.getComponent()).getField();
         if (map.isShipsPlaced()) {
             if (field.isHit()) {
-                showMessageDialog(map, "You can fire in the same place, your crew will laught "
+                showMessageDialog(map.getMapGUI(), "You can fire in the same place, your crew will laught "
                         + "at you...", "Not allowed", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 map.fire(field.getRow(), field.getColumn());
             }
         } else {
-            showMessageDialog(map, "You can't place the enemy ships, that would be cheating!",
+            showMessageDialog(map.getMapGUI(), "You can't place the enemy ships, that would be cheating!",
                     "Not allowed", JOptionPane.INFORMATION_MESSAGE);
         }
     }
